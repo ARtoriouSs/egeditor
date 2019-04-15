@@ -10,12 +10,12 @@
     <link rel="stylesheet" type="text/css" href="../assets/stylesheets/editor.css">
   </head>
   <body>
-    <div id="graph-controls">
-      <button id='save'>Save</button>
-      <button id='load'>Load</button>
-    </div>
     <div id="container">
       <div id="graph-container"></div>
+      <div id="graph-controls">
+        <button id='save'>Save</button>
+        <button id='load'>Load</button>
+      </div>
     </div>
     <script>
       N = 10;
@@ -65,6 +65,6 @@
       });
 
     </script>
-    <script src="../renderers/editor.js"></script>
+    <script>require('../renderers/editor.js')</script>
   </body>
 </html>
