@@ -26,5 +26,8 @@
   "homepage": "https://github.com/ARtoriouSs/graph-editor#readme",
   "devDependencies": {
     "electron": "^4.1.4"
+  },
+  "dependencies": {
+    "jquery": "^3.4.0"
   }
 }
