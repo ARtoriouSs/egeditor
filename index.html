@@ -13,24 +13,24 @@
   </style>
   <div id="graph-container"></div>
 </div>
+<div id="graph-controls">
+  <button>Keks</button>
+</div>
 <script>
-  var i,
-      s,
-      img,
-      N = 10,
-      E = 10,
-      g = {
-        nodes: [],
-        edges: []
-      },
-      colors = [
-        '#617db4',
-        '#668f3c',
-        '#c6583e',
-        '#b956af'
-      ];
+  N = 10;
+  E = 10;
+  var g = {
+    nodes: [],
+    edges: []
+  };
+  colors = [
+    '#617db4',
+    '#668f3c',
+    '#c6583e',
+    '#b956af'
+  ];
 
-  for (i = 0; i < N; i++) {
+  for (var i = 0; i < N; i++) {
     g.nodes.push({
       id: 'n' + i,
       label: 'Node ' + i,
@@ -41,7 +41,7 @@
     });
   }
 
-  for (i = 0; i < E; i++) {
+  for (var i = 0; i < E; i++) {
     g.edges.push({
       id: 'e' + i,
       source: 'n' + (Math.random() * N | 0),
@@ -51,7 +51,7 @@
     });
   }
 
-  s = new sigma({
+  var s = new sigma({
     graph: g,
     renderer: {
       container: 'graph-container',
@@ -63,31 +63,5 @@
     }
   });
 
-  dom = document.querySelector('#graph-container canvas:last-child');
-
-  dom.addEventListener('click', function(e) {
-      s.graph.addNode({
-          id: i + 1,
-          x: 0,
-          y: 0,
-          size: 30
-      });
-      s.refresh();
-      i++;
-  }, false);
-
-  var dragListener = sigma.plugins.dragNodes(s, s.renderers[0]);
-
-  dragListener.bind('startdrag', function(event) {
-    console.log(event);
-  });
-  dragListener.bind('drag', function(event) {
-    console.log(event);
-  });
-  dragListener.bind('drop', function(event) {
-    console.log(event);
-  });
-  dragListener.bind('dragend', function(event) {
-    console.log(event);
-  });
 </script>
+<script src="view.js"></script>
