@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Graph editor</title>
+    <script src="../../vendor/sigma.min.js"></script>
+    <script src="../../vendor/plugins/sigma.plugins.dragNodes.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../assets/stylesheets/editor.css">
+  </head>
+  <body>
+    <div id="graph-controls">
+      <button id='save'>Save</button>
+      <button id='load'>Load</button>
+    </div>
+    <div id="container">
+      <div id="graph-container"></div>
+    </div>
+    <script>
+      N = 10;
+      E = 10;
+      var g = {
+        nodes: [],
+        edges: []
+      };
+      colors = [
+        '#617db4',
+        '#668f3c',
+        '#c6583e',
+        '#b956af'
+      ];
+
+      for (var i = 0; i < N; i++) {
+        g.nodes.push({
+          id: 'n' + i,
+          label: 'Node ' + i,
+          x: Math.random(),
+          y: Math.random(),
+          size: 30,
+          color: colors[Math.floor(Math.random() * colors.length)]
+        });
+      }
+
+      for (var i = 0; i < E; i++) {
+        g.edges.push({
+          id: 'e' + i,
+          source: 'n' + (Math.random() * N | 0),
+          target: 'n' + (Math.random() * N | 0),
+          type: 'arrow',
+          size: 3
+        });
+      }
+
+      var s = new sigma({
+        graph: g,
+        renderer: {
+          container: 'graph-container',
+          type: 'canvas'
+        },
+        settings: {
+          maxNodeSize: 10,
+          maxEdgeSize: 3
+        }
+      });
+
+    </script>
+    <script src="../renderers/editor.js"></script>
+  </body>
+</html>
