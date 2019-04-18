@@ -1,24 +1,56 @@
 const { dialog } = require('electron').remote
+const fs = require('fs')
 
-$('#load').on('click', (e) => {
-  dialog.showOpenDialog({
+$('#load').on('click', (event) => {
+  var options = {
     properties: ['openFile', 'showHiddenFiles'],
     title: 'Open graph',
     filters: [
       { name: 'Graphs', extensions: ['json'] },
     ]
-  })
+  }
+  var callback = (paths) => {
+    if (!paths) return
+
+    fs.readFile(paths[0], 'utf-8', (error, data) => {
+      if (error) {
+        alert("An error ocurred reading the file: " + error.message)
+        return
+      }
+      var graphData = JSON.parse(data)
+      graphData = { edges: graphData.edges, nodes: graphData.nodes }
+
+      graph.graph.clear()
+      graph.graph.read(graphData)
+      graph.refresh()
+    })
+  }
+  dialog.showOpenDialog(null, options, callback);
 });
 
-$('#save').on('click', (e) => {
-  dialog.showSaveDialog({
-    properties: ['openFile', 'showHiddenFiles'],
-    title: 'Open graph',
+$('#save').on('click', (event) => {
+  var options = {
+    title: 'Save graph',
     filters: [
       { name: 'Graphs', extensions: ['json'] },
     ]
-  })
-});
+  }
+  var callback = (path) => {
+    if (!path) return
+
+    var data = '{ "nodes": ' + JSON.stringify(graph.graph.nodes()) + ',\n' +
+                 '"edges": ' + JSON.stringify(graph.graph.edges()) + ' }'
+
+    fs.writeFile(path, data, (error) => {
+      if (error) {
+        alert("An error ocurred creating the file: " + error.message)
+        return
+      }
+    });
+  }
+
+  dialog.showSaveDialog(null, options, callback)
+})
 
 
 
@@ -38,7 +70,7 @@ $('#save').on('click', (e) => {
 //   i++;
 // }, false);
 
-var dragListener = sigma.plugins.dragNodes(s, s.renderers[0]);
+var dragListener = sigma.plugins.dragNodes(graph, graph.renderers[0]);
 
 // dragListener.bind('startdrag', function(event) {
 //   console.log(event);

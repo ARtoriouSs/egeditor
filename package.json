@@ -28,6 +28,7 @@
     "electron": "^4.1.4"
   },
   "dependencies": {
+    "electron-json-storage": "^4.1.6",
     "jquery": "^3.4.0"
   }
 }

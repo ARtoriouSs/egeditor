@@ -49,10 +49,10 @@
           target: 'n' + (Math.random() * N | 0),
           type: 'arrow',
           size: 3
-        });
+        })
       }
 
-      var s = new sigma({
+      graph = new sigma({
         graph: g,
         renderer: {
           container: 'graph-container',
@@ -62,7 +62,7 @@
           maxNodeSize: 10,
           maxEdgeSize: 3
         }
-      });
+      })
 
     </script>
     <script>require('../renderers/editor.js')</script>
