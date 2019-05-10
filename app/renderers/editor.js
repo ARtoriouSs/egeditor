@@ -1,6 +1,8 @@
 const { dialog } = require('electron').remote
 const fs = require('fs')
 
+sigma.plugins.dragNodes(graph, graph.renderers[0]);
+
 $('#load').on('click', (event) => {
   var options = {
     properties: ['openFile', 'showHiddenFiles'],
@@ -52,35 +54,43 @@ $('#save').on('click', (event) => {
   dialog.showSaveDialog(null, options, callback)
 })
 
+graph.bind('clickNode', (e) => {
+  var node = e.data.node
+  $('#node-label-input').val(node.label)
+  $('#node-id-input').val(node.id)
+  // $('#node-color-input').selectedOptions[0]
+})
 
-
-
-
+$('#node-color-input').on('change', function () {
+  var selected = this.selectedOptions[0]
+  var color  = selected.text
+  var rgb = selected.value;
+  $(this).removeClass().addClass('color-input-' + color)
+});
 
 // var dom = document.querySelector('#graph-container canvas:last-child');
 
 // dom.addEventListener('click', function(e) {
-//   s.graph.addNode({
+//   graph.graph.addNode({
 //     id: i + 1,
-//     x: 0,
-//     y: 0,
+//     x: x,
+//     y: y,
 //     size: 30
 //   });
-//   s.refresh();
+//   graph.refresh();
 //   i++;
 // }, false);
 
-var dragListener = sigma.plugins.dragNodes(graph, graph.renderers[0]);
-
-// dragListener.bind('startdrag', function(event) {
-//   console.log(event);
-// });
-// dragListener.bind('drag', function(event) {
-//   console.log(event);
-// });
-// dragListener.bind('drop', function(event) {
-//   console.log(event);
-// });
-// dragListener.bind('dragend', function(event) {
-//   console.log(event);
+// graph.bind('rightClick', function (e) {
+//   debugger;
+//     graph.graph.addNode({
+//         id: i + 1,
+//         label: "Test node",
+//         categories: ['sample'],
+//         x: e.data.x,
+//         y: e.data.y,
+//         type: 'circle'
+//     });
+//     graph.refresh();
+//     i++;
 // });

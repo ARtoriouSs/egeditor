@@ -12,5 +12,71 @@
   width: 200px;
   height: 100%;
   position: absolute;
-  background-color: #999;
+}
+
+#control-buttons {
+  display: flex;
+  justify-content: space-around;
+  margin: 10px;
+}
+
+#save, #load, #drop-node {
+  background-color: white;
+  border: 1px solid;
+}
+
+#drop-node {
+  margin-left: 5px;
+  margin-top: 3px;
+}
+
+#graph-info {
+  padding: 5px;
+  margin: 2px;
+}
+
+#node-info {
+  border-top: 2px solid;
+  padding: 5px;
+  margin: 2px;
+}
+
+#node-info-label, #graph-info-label {
+  font-weight: bold;
+}
+
+#node-label, #node-id, #node-color {
+  margin: 5px;
+}
+
+#node-color-input {
+  width: 103%;
+}
+
+.color-input-white {
+  background-color: white;
+}
+
+.color-input-red {
+  background-color: #c6583e;
+  color: white;
+}
+
+.color-input-green {
+  background-color: #668f3c;
+  color: white;
+}
+
+.color-input-yellow {
+  background-color: #ffb300;
+}
+
+.color-input-blue {
+  background-color: #617db4;
+  color: white;
+}
+
+.color-input-purple {
+  background-color: #b956af;
+  color: white;
 }
