@@ -60,8 +60,9 @@ $(document).ready(() => {
     var colorInput = $('#node-color-input')
 
     $('#node-label-input').val(node.label)
-    $('#node-id-input').val(node.id)
+    $('#node-id-label').text(node.id)
     colorInput.val(node.color)
+    $('#node-info').attr('data-id', node.id)
 
     var selectedColor = colorInput.children("option:selected").text()
     colorInput.removeClass().addClass('color-input-' + selectedColor)
@@ -71,12 +72,18 @@ $(document).ready(() => {
     var selected = $(this).children("option:selected")
     var color = selected.text()
     var rgb = selected.val()
-    var id = $('#node-id-input').val()
+    var id = $('#node-info').data('id')
 
     getNodeById(id).color = rgb
     graph.refresh()
     $(this).removeClass().addClass('color-input-' + color)
-  });
+  })
+
+  $(document).on('input', '#node-label-input', () => {
+    var id = $('#node-info').data('id')
+    getNodeById(id).label = $('#node-label-input').val()
+    graph.refresh();
+  })
 
   function getNodeById(id) {
     var foundNode
