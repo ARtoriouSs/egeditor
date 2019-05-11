@@ -71,10 +71,14 @@ $(document).ready(() => {
   $('#node-color-input').on('change', function () {
     var selected = $(this).children("option:selected")
     var color = selected.text()
-    var rgb = selected.val()
+    var value = selected.val()
     var id = $('#node-info').data('id')
 
-    getNodeById(id).color = rgb
+    if (value === 'placeholder') {
+      $(this).removeClass().addClass('color-input-white')
+      return
+    }
+    getNodeById(id).color = value
     graph.refresh()
     $(this).removeClass().addClass('color-input-' + color)
   })
@@ -82,7 +86,7 @@ $(document).ready(() => {
   $(document).on('input', '#node-label-input', () => {
     var id = $('#node-info').data('id')
     getNodeById(id).label = $('#node-label-input').val()
-    graph.refresh();
+    graph.refresh()
   })
 
   function getNodeById(id) {
