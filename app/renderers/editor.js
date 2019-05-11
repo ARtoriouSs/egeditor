@@ -1,72 +1,90 @@
-const { dialog } = require('electron').remote
-const fs = require('fs')
+$(document).ready(() => {
+  const { dialog } = require('electron').remote
+  const fs = require('fs')
 
-sigma.plugins.dragNodes(graph, graph.renderers[0]);
+  sigma.plugins.dragNodes(graph, graph.renderers[0]);
 
-$('#load').on('click', (event) => {
-  var options = {
-    properties: ['openFile', 'showHiddenFiles'],
-    title: 'Open graph',
-    filters: [
-      { name: 'Graphs', extensions: ['json'] },
-    ]
-  }
-  var callback = (paths) => {
-    if (!paths) return
+  $('#load').on('click', (event) => {
+    var options = {
+      properties: ['openFile', 'showHiddenFiles'],
+      title: 'Open graph',
+      filters: [
+        { name: 'Graphs', extensions: ['json'] },
+      ]
+    }
+    var callback = (paths) => {
+      if (!paths) return
 
-    fs.readFile(paths[0], 'utf-8', (error, data) => {
-      if (error) {
-        alert("An error ocurred reading the file: " + error.message)
-        return
-      }
-      var graphData = JSON.parse(data)
-      graphData = { edges: graphData.edges, nodes: graphData.nodes }
+      fs.readFile(paths[0], 'utf-8', (error, data) => {
+        if (error) {
+          alert("An error ocurred reading the file: " + error.message)
+          return
+        }
+        var graphData = JSON.parse(data)
+        graphData = { edges: graphData.edges, nodes: graphData.nodes }
 
-      graph.graph.clear()
-      graph.graph.read(graphData)
-      graph.refresh()
+        graph.graph.clear()
+        graph.graph.read(graphData)
+        graph.refresh()
+      })
+    }
+    dialog.showOpenDialog(null, options, callback);
+  });
+
+  $('#save').on('click', (event) => {
+    var options = {
+      title: 'Save graph',
+      filters: [
+        { name: 'Graphs', extensions: ['json'] },
+      ]
+    }
+    var callback = (path) => {
+      if (!path) return
+
+      var data = '{ "nodes": ' + JSON.stringify(graph.graph.nodes()) + ',\n' +
+                  '"edges": ' + JSON.stringify(graph.graph.edges()) + ' }'
+
+      fs.writeFile(path, data, (error) => {
+        if (error) {
+          alert("An error ocurred creating the file: " + error.message)
+          return
+        }
+      });
+    }
+
+    dialog.showSaveDialog(null, options, callback)
+  })
+
+  graph.bind('clickNode', (event) => {
+    var node = event.data.node
+    var colorInput = $('#node-color-input')
+
+    $('#node-label-input').val(node.label)
+    $('#node-id-input').val(node.id)
+    colorInput.val(node.color)
+
+    var selectedColor = colorInput.children("option:selected").text()
+    colorInput.removeClass().addClass('color-input-' + selectedColor)
+  })
+
+  $('#node-color-input').on('change', function () {
+    var selected = $(this).children("option:selected")
+    var color = selected.text()
+    var rgb = selected.val()
+    var id = $('#node-id-input').val()
+
+    getNodeById(id).color = rgb
+    graph.refresh()
+    $(this).removeClass().addClass('color-input-' + color)
+  });
+
+  function getNodeById(id) {
+    var foundNode
+    graph.graph.nodes().forEach((node) => {
+      if (node.id === id) foundNode = node
     })
+    return foundNode
   }
-  dialog.showOpenDialog(null, options, callback);
-});
-
-$('#save').on('click', (event) => {
-  var options = {
-    title: 'Save graph',
-    filters: [
-      { name: 'Graphs', extensions: ['json'] },
-    ]
-  }
-  var callback = (path) => {
-    if (!path) return
-
-    var data = '{ "nodes": ' + JSON.stringify(graph.graph.nodes()) + ',\n' +
-                 '"edges": ' + JSON.stringify(graph.graph.edges()) + ' }'
-
-    fs.writeFile(path, data, (error) => {
-      if (error) {
-        alert("An error ocurred creating the file: " + error.message)
-        return
-      }
-    });
-  }
-
-  dialog.showSaveDialog(null, options, callback)
-})
-
-graph.bind('clickNode', (e) => {
-  var node = e.data.node
-  $('#node-label-input').val(node.label)
-  $('#node-id-input').val(node.id)
-  // $('#node-color-input').selectedOptions[0]
-})
-
-$('#node-color-input').on('change', function () {
-  var selected = this.selectedOptions[0]
-  var color  = selected.text
-  var rgb = selected.value;
-  $(this).removeClass().addClass('color-input-' + color)
-});
 
 // var dom = document.querySelector('#graph-container canvas:last-child');
 
@@ -94,3 +112,5 @@ $('#node-color-input').on('change', function () {
 //     graph.refresh();
 //     i++;
 // });
+
+})
