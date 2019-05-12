@@ -13,7 +13,6 @@
     <div id="container">
       <div id="graph-container"></div>
       <div id="graph-controls">
-
         <div id="graph-info">
           <label id="graph-info-label">Current graph:</label>
           <div id="control-buttons">
@@ -53,27 +52,31 @@
         edges: []
       };
 
-      for (var i = 0; i < N; i++) {
-        g.nodes.push({
-          id: 'n' + i,
-          label: 'Node ' + i,
-          x: Math.random(),
-          y: Math.random(),
-          size: 30,
-          color: '#ffb300'
-        });
-      }
+      // for (var i = 0; i < N; i++) {
+      //   g.nodes.push({
+      //     id: 'n' + i,
+      //     label: 'Node ' + i,
+      //     x: Math.random(),
+      //     y: Math.random(),
+      //     size: 30,
+      //     color: '#ffb300'
+      //   });
+      // }
 
-      for (var i = 0; i < E; i++) {
-        g.edges.push({
-          id: 'e' + i,
-          source: 'n' + (Math.random() * N | 0),
-          target: 'n' + (Math.random() * N | 0),
-          type: 'arrow',
-          size: 3,
-          color: '#668f3c'
-        })
-      }
+      // for (var i = 0; i < E; i++) {
+      //   g.edges.push({
+      //     id: 'e' + i,
+      //     source: 'n' + (Math.random() * N | 0),
+      //     target: 'n' + (Math.random() * N | 0),
+      //     type: 'arrow',
+      //     size: 3,
+      //     color: '#668f3c'
+      //   })
+      // }
+
+
+      i = 1
+
 
       graph = new sigma({
         graph: g,

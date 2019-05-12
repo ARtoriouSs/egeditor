@@ -85,13 +85,13 @@ $(document).ready(() => {
     var value = selected.val()
 
     if (value === 'placeholder') {
-      $(this).removeClass().addClass('color-input-white')
+      $('#node-color-input').removeClass().addClass('color-input-white')
       return
     }
 
     getNodeById(id).color = value
     graph.refresh()
-    $(this).removeClass().addClass('color-input-' + color)
+    $('#node-color-input').removeClass().addClass('color-input-' + color)
   })
 
   $(document).on('input', '#node-label-input', () => {
@@ -114,31 +114,20 @@ $(document).ready(() => {
     return foundNode
   }
 
-// var dom = document.querySelector('#graph-container canvas:last-child');
+  graph.bind('rightClick', function (e) {
+    var x = e.data.x / 1000
+    var y = e.data.y / 1000
+    graph.graph.addNode({
+      id: i + 1,
+      label: "Test node",
+      size: 30,
+      x: 0,
+      y: 0,
+      color: '#ffb300'
+    });
+    graph.refresh();
+    i++;
+  });
 
-// dom.addEventListener('click', function(e) {
-//   graph.graph.addNode({
-//     id: i + 1,
-//     x: x,
-//     y: y,
-//     size: 30
-//   });
-//   graph.refresh();
-//   i++;
-// }, false);
-
-// graph.bind('rightClick', function (e) {
-//   debugger;
-//     graph.graph.addNode({
-//         id: i + 1,
-//         label: "Test node",
-//         categories: ['sample'],
-//         x: e.data.x,
-//         y: e.data.y,
-//         type: 'circle'
-//     });
-//     graph.refresh();
-//     i++;
-// });
 
 })
