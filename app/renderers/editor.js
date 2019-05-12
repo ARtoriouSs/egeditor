@@ -100,6 +100,12 @@ $(document).ready(() => {
     graph.refresh()
   })
 
+  $(document).on('click', '#drop-node', () => {
+    var id = $('#node-info').attr('data-id')
+    graph.graph.dropNode(id)
+    graph.refresh()
+  })
+
   function getNodeById(id) {
     var foundNode
     graph.graph.nodes().forEach((node) => {
