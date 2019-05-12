@@ -79,7 +79,7 @@ $(document).ready(() => {
   })
 
   $(document).on('change', '#node-color-input', () => {
-    var id = $('#node-info').data('id')
+    var id = $('#node-info').attr('data-id')
     var selected = $('#node-color-input').children("option:selected")
     var color = selected.text()
     var value = selected.val()
@@ -95,7 +95,7 @@ $(document).ready(() => {
   })
 
   $(document).on('input', '#node-label-input', () => {
-    var id = $('#node-info').data('id')
+    var id = $('#node-info').attr('data-id')
     getNodeById(id).label = $('#node-label-input').val()
     graph.refresh()
   })
