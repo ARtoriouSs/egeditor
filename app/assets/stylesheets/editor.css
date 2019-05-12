@@ -19,7 +19,7 @@
   margin: 10px 0;
 }
 
-#save, #load, #drop-node, #add-node {
+#save, #load, #drop-node, #add-node, #add-edge {
   background-color: white;
   border: 1px solid;
   margin-right: 5px;
@@ -45,10 +45,14 @@
   font-weight: bold;
 }
 
-#add-node-label {
+#add-node-label, #add-edge-label {
   display: block;
   border-top: 1px solid;
   padding-top: 3px;
+}
+
+#add-node-container, #add-edge-container {
+  margin-top: 5px;
 }
 
 #node-info-label {
@@ -67,12 +71,22 @@
   width: 129px;
 }
 
-#node-coordinates {
+#node-coordinates, #edge-coordinates {
   margin: 10px 0;
 }
 
 #node-x, #node-y {
   margin: 0 5px;
+}
+
+#edge-source {
+  width: 115px;
+  margin-left: 1px;
+}
+
+#edge-target {
+  width: 115px;
+  margin-left: 5px;
 }
 
 #node-labels {
@@ -113,4 +127,8 @@
 
 .flex {
   display: flex;
+}
+
+.edge-field-container {
+  margin: 5px;
 }

@@ -19,6 +19,7 @@
             <button id='save'>Save</button>
             <button id='load'>Load</button>
           </div>
+
           <div id="add-node-container">
             <label id="add-node-label">Add new node</label>
             <div id="node-coordinates" class="flex">
@@ -27,6 +28,22 @@
             </div>
             <button id="add-node">Create</button>
           </div>
+
+          <div id="add-edge-container">
+              <label id="add-edge-label">Add new edge</label>
+              <div id="edge-coordinates">
+                <div class="edge-field-container">
+                  Source: <input type="text" id="edge-source"></input>
+                </div>
+                <div class="edge-field-container">
+                  Target: <input type="text" id="edge-target"></input>
+                </div>
+                <div class="edge-field-container">
+                  <input type="checkbox" id="is-oriented">Oriented</input>
+                </div>
+              </div>
+              <button id="add-edge">Create</button>
+            </div>
         </div>
 
         <div id="node-info">

@@ -121,6 +121,22 @@ $(document).ready(() => {
     graph.refresh()
   })
 
+  $(document).on('click', '#add-edge', () => {
+    var id = 'e' + (graph.graph.edges().length + 1)
+    var source = $('#edge-source').val()
+    var target = $('#edge-target').val()
+    var type = $('#is-oriented').prop('checked') ? 'arrow' : 'line'
+    graph.graph.addEdge({
+      id: id,
+      source: source,
+      target: target,
+      type: type,
+      size: 3,
+      color: '#668f3c'
+    });
+    graph.refresh()
+  })
+
   function getNodeById(id) {
     var foundNode
     graph.graph.nodes().forEach((node) => {
