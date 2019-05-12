@@ -13,48 +13,64 @@
     <div id="container">
       <div id="graph-container"></div>
       <div id="graph-controls">
-        <div id="graph-info">
-          <label id="graph-info-label">Current graph:</label>
-          <div id="control-buttons">
-            <button id='save'>Save</button>
-            <button id='load'>Load</button>
+        <div id="graph-info" class="info">
+          <label class="main-label">Current graph:</label>
+          <div class="block">
+            <button id='save' class="button">Save</button>
+            <button id='load' class="button">Load</button>
           </div>
 
-          <div id="add-node-container">
-            <label id="add-node-label">Add new node</label>
-            <div id="node-coordinates" class="flex">
+          <div class="top-margined">
+            <label class="sublabel">Information:</label>
+            <div class="flex">
+              <label>Number of nodes:</label>
+              <label id="nodes-number" class="second-label"></label>
+            </div>
+            <div class="flex">
+              <label>Number of edges:</label>
+              <label id="edges-number" class="second-label"></label>
+            </div>
+            <div id="nodes-powers"></div>
+          </div>
+
+          <div class="top-margined">
+            <label class="sublabel">Add new node</label>
+            <div class="block">
               x: <input type="text" id="node-x" class="small-input"></input>
               y: <input type="text" id="node-y" class="small-input"></input>
             </div>
-            <button id="add-node">Create</button>
+            <button id="add-node" class="button">Create</button>
           </div>
 
-          <div id="add-edge-container">
-              <label id="add-edge-label">Add new edge</label>
-              <div id="edge-coordinates">
-                <div class="edge-field-container">
-                  Source: <input type="text" id="edge-source"></input>
-                </div>
-                <div class="edge-field-container">
-                  Target: <input type="text" id="edge-target"></input>
-                </div>
-                <div class="edge-field-container">
-                  <input type="checkbox" id="is-oriented">Oriented</input>
-                </div>
+          <div class="top-margined">
+            <label class="sublabel">Add new edge</label>
+            <div>
+              <div class="field-container">
+                Source: <input type="text" id="edge-source"></input>
               </div>
-              <button id="add-edge">Create</button>
+              <div class="field-container">
+                Target: <input type="text" id="edge-target"></input>
+              </div>
+              <div class="field-container">
+                <input type="checkbox" id="is-oriented">Oriented</input>
+              </div>
             </div>
+            <button id="add-edge" class="button">Create</button>
+          </div>
         </div>
 
-        <div id="node-info">
-          <div id="node-labels" class="flex">
-            <label id="node-info-label">Selected node:</label>
-            <label id="node-id-label"></label>
+        <div id="node-info" class="info">
+          <div class="flex">
+            <label class="main-label">Selected node:</label>
+            <label id="node-id-label" class="second-label"></label>
           </div>
-          <div id="node-label">
+          <div class="field-container"">
+            Power: <label id="node-power"></label>
+          </div>
+          <div class="field-container">
             Label: <input type="text" id="node-label-input"></input>
           </div>
-          <div id="node-color">
+          <div class="field-container">
             Color:
             <select id="node-color-input" class="color-input-white">
               <option value="placeholder">Input color</option>
@@ -65,15 +81,15 @@
               <option value="#b956af" style="background-color: #b956af; color: white;">purple</option>
             </select>
           </div>
-          <button id="drop-node">Drop</button>
+          <button id="drop-node" class="button">Drop</button>
         </div>
 
-        <div id="edge-info">
-          <div id="edge-labels" class="flex">
-            <label id="edge-info-label">Selected edge:</label>
-            <label id="edge-id-label"></label>
+        <div id="edge-info" class="info">
+          <div class="flex">
+            <label class="main-label">Selected edge:</label>
+            <label id="edge-id-label" class="second-label"></label>
           </div>
-          <div id="edge-color">
+          <div class="field-container">
             Color:
             <select id="edge-color-input" class="color-input-white">
               <option value="placeholder">Input color</option>
@@ -84,7 +100,7 @@
               <option value="#b956af" style="background-color: #b956af; color: white;">purple</option>
             </select>
           </div>
-          <button id="drop-edge">Drop</button>
+          <button id="drop-edge" class="button">Drop</button>
         </div>
       </div>
     </div>

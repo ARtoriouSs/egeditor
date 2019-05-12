@@ -4,6 +4,8 @@ $(document).ready(() => {
 
   sigma.plugins.dragNodes(graph, graph.renderers[0]);
 
+  updateInfo()
+
   $('#load').on('click', (event) => {
     var options = {
       properties: ['openFile', 'showHiddenFiles'],
@@ -26,6 +28,7 @@ $(document).ready(() => {
         graph.graph.clear()
         graph.graph.read(graphData)
         graph.refresh()
+        updateInfo()
       })
     }
     dialog.showOpenDialog(null, options, callback);
@@ -55,19 +58,9 @@ $(document).ready(() => {
     dialog.showSaveDialog(null, options, callback)
   })
 
-  graph.bind('clickStage', (event) => {
-    var nodeColorInput = $('#node-color-input')
-    var edgeColorInput = $('#edge-color-input')
-
-    $('#node-info').removeAttr('data-id')
-    $('#edge-info').removeAttr('data-id')
-    $('#node-label-input').val('')
-    $('#node-id-label').text('')
-    $('#edge-id-label').text('')
-    nodeColorInput.val('placeholder')
-    nodeColorInput.removeClass().addClass('color-input-white')
-    edgeColorInput.val('placeholder')
-    edgeColorInput.removeClass().addClass('color-input-white')
+  graph.bind('clickStage', () => {
+    clearNodeInfo()
+    clearEdgeInfo()
   })
 
   graph.bind('clickNode', (event) => {
@@ -77,6 +70,7 @@ $(document).ready(() => {
     $('#node-info').attr('data-id', node.id)
     $('#node-label-input').val(node.label)
     $('#node-id-label').text(node.id)
+    $('#node-power').text(getPower(node))
     colorInput.val(node.color)
 
     var selectedColor = colorInput.children("option:selected").text()
@@ -137,12 +131,16 @@ $(document).ready(() => {
     var id = $('#node-info').attr('data-id')
     graph.graph.dropNode(id)
     graph.refresh()
+    updateInfo()
+    clearNodeInfo()
   })
 
   $(document).on('click', '#drop-edge', () => {
     var id = $('#edge-info').attr('data-id')
     graph.graph.dropEdge(id)
     graph.refresh()
+    updateInfo()
+    clearEdgeInfo()
   })
 
   $(document).on('click', '#add-node', () => {
@@ -158,6 +156,7 @@ $(document).ready(() => {
       color: '#ffb300'
     });
     graph.refresh()
+    updateInfo()
   })
 
   $(document).on('click', '#add-edge', () => {
@@ -174,6 +173,7 @@ $(document).ready(() => {
       color: '#668f3c'
     });
     graph.refresh()
+    updateInfo()
   })
 
   function getNodeById(id) {
@@ -190,5 +190,40 @@ $(document).ready(() => {
       if (edge.id === id) foundEdge = edge
     })
     return foundEdge
+  }
+
+  function updateInfo() {
+    $('#nodes-number').text(graph.graph.nodes().length)
+    $('#edges-number').text(graph.graph.edges().length)
+    $('#nodes-powers').empty()
+    graph.graph.nodes().forEach((node) => {
+      $('#nodes-powers').append('<div>' + node.id + ': ' + getPower(node) + '</div>')
+    })
+  }
+
+  function getPower(node) {
+    var power = 0
+    graph.graph.edges().forEach((edge) => {
+      if (edge.source === node.id) power++
+    })
+    return power
+  }
+
+  function clearNodeInfo() {
+    var colorInput = $('#node-color-input')
+    colorInput.val('placeholder')
+    colorInput.removeClass().addClass('color-input-white')
+    $('#node-info').removeAttr('data-id')
+    $('#node-label-input').val('')
+    $('#node-id-label').text('')
+    $('#node-power').text('')
+  }
+
+  function clearEdgeInfo() {
+    var edgeColorInput = $('#edge-color-input')
+    edgeColorInput.val('placeholder')
+    edgeColorInput.removeClass().addClass('color-input-white')
+    $('#edge-info').removeAttr('data-id')
+    $('#edge-id-label').text('')
   }
 })

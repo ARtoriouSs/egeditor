@@ -14,65 +14,12 @@
   position: absolute;
 }
 
-#control-buttons {
-  display: flex;
-  margin: 10px 0;
-}
-
-#save, #load, #drop-node, #add-node, #add-edge, #drop-edge {
-  background-color: white;
-  border: 1px solid;
-  margin-right: 5px;
-}
-
-#drop-node {
-  margin-top: 3px;
-}
-
-#graph-info {
-  padding: 5px;
-  margin: 2px;
-}
-
-#node-info, #edge-info {
-  border-top: 2px solid;
-  padding: 5px;
-  margin: 2px;
-}
-
-#node-info-label, #graph-info-label, #edge-info-label {
-  display: block;
-  font-weight: bold;
-}
-
-#add-node-label, #add-edge-label {
-  display: block;
-  border-top: 1px solid;
-  padding-top: 3px;
-}
-
-#add-node-container, #add-edge-container {
-  margin-top: 5px;
-}
-
-#node-info-label, #edge-info-label {
-  margin-right: 5px;
-}
-
-#node-label, #node-color, #edge-color {
-  margin: 5px;
-}
-
 #node-label-input {
   width: 125px;
 }
 
 #node-color-input, #edge-color-input {
   width: 129px;
-}
-
-#node-coordinates, #edge-coordinates {
-  margin: 10px 0;
 }
 
 #node-x, #node-y {
@@ -89,8 +36,13 @@
   margin-left: 5px;
 }
 
-#node-labels, #edge-labels {
-  margin: 3px 0 10px 0;
+#nodes-powers {
+  overflow-y: scroll;
+  height: 125px;
+}
+
+#graph-info {
+  border: none;
 }
 
 .color-input-white {
@@ -129,6 +81,42 @@
   display: flex;
 }
 
-.edge-field-container {
+.field-container {
   margin: 5px;
+}
+
+.top-margined {
+  margin-top: 5px;
+}
+
+.block {
+  display: flex;
+  margin: 10px 0;
+}
+
+.button {
+  background-color: white;
+  border: 1px solid;
+  margin-right: 5px;
+}
+
+.info {
+  border-top: 2px solid;
+  padding: 5px;
+  margin: 2px;
+}
+
+.main-label {
+  display: block;
+  font-weight: bold;
+}
+
+.sublabel {
+  display: block;
+  border-top: 1px solid;
+  padding-top: 3px;
+}
+
+.second-label {
+  margin-left: 5px;
 }
