@@ -55,29 +55,40 @@ $(document).ready(() => {
     dialog.showSaveDialog(null, options, callback)
   })
 
+  graph.bind('clickStage', (event) => {
+    var colorInput = $('#node-color-input')
+
+    $('#node-info').removeAttr('data-id')
+    $('#node-label-input').val('')
+    $('#node-id-label').text('')
+    colorInput.val('placeholder')
+    colorInput.removeClass().addClass('color-input-white')
+  })
+
   graph.bind('clickNode', (event) => {
     var node = event.data.node
     var colorInput = $('#node-color-input')
 
+    $('#node-info').attr('data-id', node.id)
     $('#node-label-input').val(node.label)
     $('#node-id-label').text(node.id)
     colorInput.val(node.color)
-    $('#node-info').attr('data-id', node.id)
 
     var selectedColor = colorInput.children("option:selected").text()
     colorInput.removeClass().addClass('color-input-' + selectedColor)
   })
 
-  $('#node-color-input').on('change', function () {
-    var selected = $(this).children("option:selected")
+  $(document).on('change', '#node-color-input', () => {
+    var id = $('#node-info').data('id')
+    var selected = $('#node-color-input').children("option:selected")
     var color = selected.text()
     var value = selected.val()
-    var id = $('#node-info').data('id')
 
     if (value === 'placeholder') {
       $(this).removeClass().addClass('color-input-white')
       return
     }
+
     getNodeById(id).color = value
     graph.refresh()
     $(this).removeClass().addClass('color-input-' + color)
