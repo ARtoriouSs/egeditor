@@ -17,7 +17,8 @@ $(document).ready(() => {
     var callback = (paths) => {
       if (!paths) return
 
-      fs.readFile(paths[0], 'utf-8', (error, data) => {
+      var path = paths[0]
+      fs.readFile(path, 'utf-8', (error, data) => {
         if (error) {
           alert("An error ocurred reading the file: " + error.message)
           return
@@ -30,6 +31,7 @@ $(document).ready(() => {
         graph.refresh()
         updateGraphInfo()
       })
+      $('#graph-name').text(getGraphName(path))
     }
     dialog.showOpenDialog(null, options, callback);
   });
@@ -53,8 +55,8 @@ $(document).ready(() => {
           return
         }
       });
+      $('#graph-name').text(getGraphName(path))
     }
-
     dialog.showSaveDialog(null, options, callback)
   })
 
@@ -244,5 +246,9 @@ $(document).ready(() => {
     edgeColorInput.removeClass().addClass('color-input-white')
     $('#edge-info').removeAttr('data-id')
     $('#edge-id-label').text('')
+  }
+
+  function getGraphName(path) {
+    return path.split('/').pop().split('.')[0]
   }
 })
