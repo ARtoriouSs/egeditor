@@ -4,7 +4,7 @@ $(document).ready(() => {
 
   sigma.plugins.dragNodes(graph, graph.renderers[0]);
 
-  updateInfo()
+  updateGraphInfo()
 
   $('#load').on('click', (event) => {
     var options = {
@@ -28,7 +28,7 @@ $(document).ready(() => {
         graph.graph.clear()
         graph.graph.read(graphData)
         graph.refresh()
-        updateInfo()
+        updateGraphInfo()
       })
     }
     dialog.showOpenDialog(null, options, callback);
@@ -58,6 +58,23 @@ $(document).ready(() => {
     dialog.showSaveDialog(null, options, callback)
   })
 
+  $('#node-file-input').on('click', (event) => {
+    var options = {
+      properties: ['openFile', 'showHiddenFiles'],
+      title: 'Open node file',
+    }
+    var callback = (paths) => {
+      if (!paths) return
+
+      var id = $('#node-info').attr('data-id')
+      var path = paths[0]
+      $('#file-name').text(path.split('/').pop())
+      getNodeById(id).file = path
+      graph.refresh()
+    }
+    dialog.showOpenDialog(null, options, callback);
+  });
+
   graph.bind('clickStage', () => {
     clearNodeInfo()
     clearEdgeInfo()
@@ -69,6 +86,8 @@ $(document).ready(() => {
 
     $('#node-info').attr('data-id', node.id)
     $('#node-label-input').val(node.label)
+    $('#node-data-input').val(node.data)
+    $('#file-name').text(node.file.split('/').pop() || 'No file')
     $('#node-id-label').text(node.id)
     $('#node-power').text(getPower(node))
     colorInput.val(node.color)
@@ -131,7 +150,7 @@ $(document).ready(() => {
     var id = $('#node-info').attr('data-id')
     graph.graph.dropNode(id)
     graph.refresh()
-    updateInfo()
+    updateGraphInfo()
     clearNodeInfo()
   })
 
@@ -139,7 +158,7 @@ $(document).ready(() => {
     var id = $('#edge-info').attr('data-id')
     graph.graph.dropEdge(id)
     graph.refresh()
-    updateInfo()
+    updateGraphInfo()
     clearEdgeInfo()
   })
 
@@ -156,7 +175,7 @@ $(document).ready(() => {
       color: '#ffb300'
     });
     graph.refresh()
-    updateInfo()
+    updateGraphInfo()
   })
 
   $(document).on('click', '#add-edge', () => {
@@ -173,7 +192,7 @@ $(document).ready(() => {
       color: '#668f3c'
     });
     graph.refresh()
-    updateInfo()
+    updateGraphInfo()
   })
 
   function getNodeById(id) {
@@ -192,7 +211,7 @@ $(document).ready(() => {
     return foundEdge
   }
 
-  function updateInfo() {
+  function updateGraphInfo() {
     $('#nodes-number').text(graph.graph.nodes().length)
     $('#edges-number').text(graph.graph.edges().length)
     $('#nodes-powers').empty()

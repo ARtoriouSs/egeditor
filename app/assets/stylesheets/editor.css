@@ -14,8 +14,13 @@
   position: absolute;
 }
 
-#node-label-input {
-  width: 125px;
+#node-data-input {
+  width: 170px;
+}
+
+#node-file-input {
+  width: 85px;
+  margin: 3px 0;
 }
 
 #node-color-input, #edge-color-input {
@@ -119,4 +124,8 @@
 
 .second-label {
   margin-left: 5px;
+}
+
+.node-input {
+  width: 125px;
 }

@@ -68,7 +68,13 @@
             Power: <label id="node-power"></label>
           </div>
           <div class="field-container">
-            Label: <input type="text" id="node-label-input"></input>
+            Label: <input type="text" id="node-label-input" class="node-input"></input>
+          </div>
+          <div class="field-container">
+            Data:
+            <textarea id="node-data-input" cols="40" rows="3"></textarea>
+            <button id="node-file-input" class="button">Choose file</button>
+            <label id="file-name">No file</label>
           </div>
           <div class="field-container">
             Color:
@@ -119,7 +125,9 @@
           x: Math.random(),
           y: Math.random(),
           size: 30,
-          color: '#ffb300'
+          color: '#ffb300',
+          data: '',
+          file: ''
         });
       }
 
