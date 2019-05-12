@@ -56,13 +56,18 @@ $(document).ready(() => {
   })
 
   graph.bind('clickStage', (event) => {
-    var colorInput = $('#node-color-input')
+    var nodeColorInput = $('#node-color-input')
+    var edgeColorInput = $('#edge-color-input')
 
     $('#node-info').removeAttr('data-id')
+    $('#edge-info').removeAttr('data-id')
     $('#node-label-input').val('')
     $('#node-id-label').text('')
-    colorInput.val('placeholder')
-    colorInput.removeClass().addClass('color-input-white')
+    $('#edge-id-label').text('')
+    nodeColorInput.val('placeholder')
+    nodeColorInput.removeClass().addClass('color-input-white')
+    edgeColorInput.val('placeholder')
+    edgeColorInput.removeClass().addClass('color-input-white')
   })
 
   graph.bind('clickNode', (event) => {
@@ -73,6 +78,18 @@ $(document).ready(() => {
     $('#node-label-input').val(node.label)
     $('#node-id-label').text(node.id)
     colorInput.val(node.color)
+
+    var selectedColor = colorInput.children("option:selected").text()
+    colorInput.removeClass().addClass('color-input-' + selectedColor)
+  })
+
+  graph.bind('clickEdge', (event) => {
+    var edge = event.data.edge
+    var colorInput = $('#edge-color-input')
+
+    $('#edge-info').attr('data-id', edge.id)
+    $('#edge-id-label').text(edge.id)
+    colorInput.val(edge.color)
 
     var selectedColor = colorInput.children("option:selected").text()
     colorInput.removeClass().addClass('color-input-' + selectedColor)

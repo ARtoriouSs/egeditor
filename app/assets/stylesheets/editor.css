@@ -19,7 +19,7 @@
   margin: 10px 0;
 }
 
-#save, #load, #drop-node, #add-node, #add-edge {
+#save, #load, #drop-node, #add-node, #add-edge, #drop-edge {
   background-color: white;
   border: 1px solid;
   margin-right: 5px;
@@ -34,13 +34,13 @@
   margin: 2px;
 }
 
-#node-info {
+#node-info, #edge-info {
   border-top: 2px solid;
   padding: 5px;
   margin: 2px;
 }
 
-#node-info-label, #graph-info-label {
+#node-info-label, #graph-info-label, #edge-info-label {
   display: block;
   font-weight: bold;
 }
@@ -55,11 +55,11 @@
   margin-top: 5px;
 }
 
-#node-info-label {
+#node-info-label, #edge-info-label {
   margin-right: 5px;
 }
 
-#node-label, #node-color {
+#node-label, #node-color, #edge-color {
   margin: 5px;
 }
 
@@ -67,7 +67,7 @@
   width: 125px;
 }
 
-#node-color-input {
+#node-color-input, #edge-color-input {
   width: 129px;
 }
 
@@ -89,7 +89,7 @@
   margin-left: 5px;
 }
 
-#node-labels {
+#node-labels, #edge-labels {
   margin: 3px 0 10px 0;
 }
 
