@@ -111,6 +111,22 @@ $(document).ready(() => {
     $('#node-color-input').removeClass().addClass('color-input-' + color)
   })
 
+  $(document).on('change', '#edge-color-input', () => {
+    var id = $('#edge-info').attr('data-id')
+    var selected = $('#edge-color-input').children("option:selected")
+    var color = selected.text()
+    var value = selected.val()
+
+    if (value === 'placeholder') {
+      $('#edge-color-input').removeClass().addClass('color-input-white')
+      return
+    }
+
+    getEdgeById(id).color = value
+    graph.refresh()
+    $('#edge-color-input').removeClass().addClass('color-input-' + color)
+  })
+
   $(document).on('input', '#node-label-input', () => {
     var id = $('#node-info').attr('data-id')
     getNodeById(id).label = $('#node-label-input').val()
@@ -120,6 +136,12 @@ $(document).ready(() => {
   $(document).on('click', '#drop-node', () => {
     var id = $('#node-info').attr('data-id')
     graph.graph.dropNode(id)
+    graph.refresh()
+  })
+
+  $(document).on('click', '#drop-edge', () => {
+    var id = $('#edge-info').attr('data-id')
+    graph.graph.dropEdge(id)
     graph.refresh()
   })
 
@@ -160,5 +182,13 @@ $(document).ready(() => {
       if (node.id === id) foundNode = node
     })
     return foundNode
+  }
+
+  function getEdgeById(id) {
+    var foundEdge
+    graph.graph.edges().forEach((edge) => {
+      if (edge.id === id) foundEdge = edge
+    })
+    return foundEdge
   }
 })
