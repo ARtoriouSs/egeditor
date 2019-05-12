@@ -19,18 +19,27 @@
             <button id='save'>Save</button>
             <button id='load'>Load</button>
           </div>
+          <div id="add-node-container">
+            <label id="add-node-label">Add new node</label>
+            <div id="node-coordinates" class="flex">
+              x: <input type="text" id="node-x" class="small-input"></input>
+              y: <input type="text" id="node-y" class="small-input"></input>
+            </div>
+            <button id="add-node">Create</button>
+          </div>
         </div>
 
         <div id="node-info">
-          <label id="node-info-label">Selected node:</label>
-          <label id="node-id-label"></label>
+          <div id="node-labels" class="flex">
+            <label id="node-info-label">Selected node:</label>
+            <label id="node-id-label"></label>
+          </div>
 
           <div id="node-label">
-            <label id="node-label-label">Label:</label>
-            <input type="text" id="node-label-input"></input>
+            Label: <input type="text" id="node-label-input"></input>
           </div>
           <div id="node-color">
-            <label id="node-color-label">Color:</label>
+            Color:
             <select id="node-color-input" class="color-input-white">
               <option value="placeholder">Input color</option>
               <option value="#ffb300" style="background-color: #ffb300;">yellow</option>
@@ -52,27 +61,27 @@
         edges: []
       };
 
-      // for (var i = 0; i < N; i++) {
-      //   g.nodes.push({
-      //     id: 'n' + i,
-      //     label: 'Node ' + i,
-      //     x: Math.random(),
-      //     y: Math.random(),
-      //     size: 30,
-      //     color: '#ffb300'
-      //   });
-      // }
+      for (var i = 0; i < N; i++) {
+        g.nodes.push({
+          id: 'n' + i,
+          label: 'Node ' + i,
+          x: Math.random(),
+          y: Math.random(),
+          size: 30,
+          color: '#ffb300'
+        });
+      }
 
-      // for (var i = 0; i < E; i++) {
-      //   g.edges.push({
-      //     id: 'e' + i,
-      //     source: 'n' + (Math.random() * N | 0),
-      //     target: 'n' + (Math.random() * N | 0),
-      //     type: 'arrow',
-      //     size: 3,
-      //     color: '#668f3c'
-      //   })
-      // }
+      for (var i = 0; i < E; i++) {
+        g.edges.push({
+          id: 'e' + i,
+          source: 'n' + (Math.random() * N | 0),
+          target: 'n' + (Math.random() * N | 0),
+          type: 'arrow',
+          size: 3,
+          color: '#668f3c'
+        })
+      }
 
 
       i = 1

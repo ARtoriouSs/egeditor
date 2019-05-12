@@ -16,17 +16,16 @@
 
 #control-buttons {
   display: flex;
-  justify-content: space-around;
-  margin: 10px;
+  margin: 10px 0;
 }
 
-#save, #load, #drop-node {
+#save, #load, #drop-node, #add-node {
   background-color: white;
   border: 1px solid;
+  margin-right: 5px;
 }
 
 #drop-node {
-  margin-left: 5px;
   margin-top: 3px;
 }
 
@@ -42,15 +41,42 @@
 }
 
 #node-info-label, #graph-info-label {
+  display: block;
   font-weight: bold;
+}
+
+#add-node-label {
+  display: block;
+  border-top: 1px solid;
+  padding-top: 3px;
+}
+
+#node-info-label {
+  margin-right: 5px;
 }
 
 #node-label, #node-color {
   margin: 5px;
 }
 
+#node-label-input {
+  width: 125px;
+}
+
 #node-color-input {
-  width: 103%;
+  width: 129px;
+}
+
+#node-coordinates {
+  margin: 10px 0;
+}
+
+#node-x, #node-y {
+  margin: 0 5px;
+}
+
+#node-labels {
+  margin: 3px 0 10px 0;
 }
 
 .color-input-white {
@@ -79,4 +105,12 @@
 .color-input-purple {
   background-color: #b956af;
   color: white;
+}
+
+.small-input {
+  width: 65px;
+}
+
+.flex {
+  display: flex;
 }

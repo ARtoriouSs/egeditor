@@ -106,6 +106,21 @@ $(document).ready(() => {
     graph.refresh()
   })
 
+  $(document).on('click', '#add-node', () => {
+    var id = 'n' + (graph.graph.nodes().length + 1)
+    var x = parseFloat($('#node-x').val()) || 0
+    var y = parseFloat($('#node-y').val()) || 0
+    graph.graph.addNode({
+      id: id,
+      label: "New node",
+      size: 30,
+      x: x,
+      y: y,
+      color: '#ffb300'
+    });
+    graph.refresh()
+  })
+
   function getNodeById(id) {
     var foundNode
     graph.graph.nodes().forEach((node) => {
@@ -113,21 +128,4 @@ $(document).ready(() => {
     })
     return foundNode
   }
-
-  graph.bind('rightClick', function (e) {
-    var x = e.data.x / 1000
-    var y = e.data.y / 1000
-    graph.graph.addNode({
-      id: i + 1,
-      label: "Test node",
-      size: 30,
-      x: 0,
-      y: 0,
-      color: '#ffb300'
-    });
-    graph.refresh();
-    i++;
-  });
-
-
 })
