@@ -45,11 +45,7 @@ $(document).ready(() => {
     }
     var callback = (path) => {
       if (!path) return
-
-      var data = '{ "nodes": ' + JSON.stringify(graph.graph.nodes()) + ',\n' +
-                  '"edges": ' + JSON.stringify(graph.graph.edges()) + ' }'
-
-      fs.writeFile(path, data, (error) => {
+      fs.writeFile(path, getGraphData(), (error) => {
         if (error) {
           alert("An error ocurred creating the file: " + error.message)
           return
@@ -67,7 +63,6 @@ $(document).ready(() => {
     }
     var callback = (paths) => {
       if (!paths) return
-
       var id = $('#node-info').attr('data-id')
       var path = paths[0]
       $('#file-name').text(path.split('/').pop())
@@ -200,20 +195,29 @@ $(document).ready(() => {
   })
 
   $(document).on('click', '#new-tab', function () {
-    var newTab = $(this)
-    newTab.remove()
+    var newTabButton = $(this)
+    newTabButton.remove()
+    $('.selected-tab').removeClass('selected-tab')
     $('#tabulator').append(
-      '<div class="tab">' +
-        '<div class="tab-content"></div>' +
+      '<div class="tab selected-tab">' +
+        '<div class="tab-content" data-graph="' + getEmptyGraphData() + '"></div>' +
         '<img src="../assets/images/cross.png" class="close-tab">' +
       '</div>'
-    ).append(newTab)
+    ).append(newTabButton)
   })
 
   $(document).on('click', '.close-tab', function () {
-    $(this).parent().remove()
+    var tab = $(this).parent()
+    if (tab.is('.selected-tab')) {
+      $(tab.parent().find('.tab')[0]).addClass('selected-tab')
+    }
+    tab.remove()
   })
 
+  $(document).on('click', '.tab-content', function () {
+    $('.selected-tab').removeClass('selected-tab')
+    $(this).parent().addClass('selected-tab')
+  })
 
   function getNodeById(id) {
     var foundNode
@@ -268,5 +272,14 @@ $(document).ready(() => {
 
   function getGraphName(path) {
     return path.split('/').pop().split('.')[0]
+  }
+
+  function getGraphData() {
+    return '{ "nodes": ' + JSON.stringify(graph.graph.nodes()) + ',\n' +
+             '"edges": ' + JSON.stringify(graph.graph.edges()) + ' }'
+  }
+
+  function getEmptyGraphData() {
+    return '{ "nodes": [], "edges": [] }'
   }
 })

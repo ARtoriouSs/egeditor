@@ -13,14 +13,6 @@
     <div id="container">
       <div id="graph-container"></div>
       <div id="tabulator">
-        <div class="tab">
-          <div class="tab-content"></div>
-          <img src="../assets/images/cross.png" class="close-tab">
-        </div>
-        <div class="tab">
-          <div class="tab-content"></div>
-          <img src="../assets/images/cross.png" class="close-tab">
-        </div>
         <img src="../assets/images/plus.png" id="new-tab">
       </div>
       <div id="graph-controls">
@@ -131,29 +123,29 @@
         edges: []
       };
 
-      for (var i = 0; i < N; i++) {
-        g.nodes.push({
-          id: 'n' + i,
-          label: 'Node ' + i,
-          x: Math.random(),
-          y: Math.random(),
-          size: 30,
-          color: '#ffb300',
-          data: '',
-          file: ''
-        });
-      }
+      // for (var i = 0; i < N; i++) {
+      //   g.nodes.push({
+      //     id: 'n' + i,
+      //     label: 'Node ' + i,
+      //     x: Math.random(),
+      //     y: Math.random(),
+      //     size: 30,
+      //     color: '#ffb300',
+      //     data: '',
+      //     file: ''
+      //   });
+      // }
 
-      for (var i = 0; i < E; i++) {
-        g.edges.push({
-          id: 'e' + i,
-          source: 'n' + (Math.random() * N | 0),
-          target: 'n' + (Math.random() * N | 0),
-          type: 'arrow',
-          size: 3,
-          color: '#668f3c'
-        })
-      }
+      // for (var i = 0; i < E; i++) {
+      //   g.edges.push({
+      //     id: 'e' + i,
+      //     source: 'n' + (Math.random() * N | 0),
+      //     target: 'n' + (Math.random() * N | 0),
+      //     type: 'arrow',
+      //     size: 3,
+      //     color: '#668f3c'
+      //   })
+      // }
 
       graph = new sigma({
         graph: g,

@@ -162,6 +162,10 @@
   align-items: center;
 }
 
+.selected-tab {
+  background-color: red;
+}
+
 .close-tab {
   width: 17px;
   height: 17px;
@@ -175,4 +179,5 @@
 .tab-content {
   margin-left: 5px;
   width: 83%;
+  height: 100%;
 }
