@@ -110,41 +110,43 @@ $(document).ready(() => {
     colorInput.removeClass().addClass('color-input-' + selectedColor)
   })
 
-  $(document).on('change', '#node-color-input', () => {
+  $(document).on('change', '#node-color-input', function () {
     var id = $('#node-info').attr('data-id')
-    var selected = $('#node-color-input').children("option:selected")
+    var input = $(this)
+    var selected = input.children("option:selected")
     var color = selected.text()
     var value = selected.val()
 
     if (value === 'placeholder') {
-      $('#node-color-input').removeClass().addClass('color-input-white')
+      input.removeClass().addClass('color-input-white')
       return
     }
 
     getNodeById(id).color = value
     graph.refresh()
-    $('#node-color-input').removeClass().addClass('color-input-' + color)
+    input.removeClass().addClass('color-input-' + color)
   })
 
-  $(document).on('change', '#edge-color-input', () => {
+  $(document).on('change', '#edge-color-input', function () {
     var id = $('#edge-info').attr('data-id')
-    var selected = $('#edge-color-input').children("option:selected")
+    var input = $(this)
+    var selected = input.children("option:selected")
     var color = selected.text()
     var value = selected.val()
 
     if (value === 'placeholder') {
-      $('#edge-color-input').removeClass().addClass('color-input-white')
+      input.removeClass().addClass('color-input-white')
       return
     }
 
     getEdgeById(id).color = value
     graph.refresh()
-    $('#edge-color-input').removeClass().addClass('color-input-' + color)
+    input.removeClass().addClass('color-input-' + color)
   })
 
-  $(document).on('input', '#node-label-input', () => {
+  $(document).on('input', '#node-label-input', function () {
     var id = $('#node-info').attr('data-id')
-    getNodeById(id).label = $('#node-label-input').val()
+    getNodeById(id).label = $(this).val()
     graph.refresh()
   })
 
@@ -196,6 +198,22 @@ $(document).ready(() => {
     graph.refresh()
     updateGraphInfo()
   })
+
+  $(document).on('click', '#new-tab', function () {
+    var newTab = $(this)
+    newTab.remove()
+    $('#tabulator').append(
+      '<div class="tab">' +
+        '<div class="tab-content"></div>' +
+        '<img src="../assets/images/cross.png" class="close-tab">' +
+      '</div>'
+    ).append(newTab)
+  })
+
+  $(document).on('click', '.close-tab', function () {
+    $(this).parent().remove()
+  })
+
 
   function getNodeById(id) {
     var foundNode

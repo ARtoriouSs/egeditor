@@ -1,17 +1,27 @@
 #graph-container {
+  position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  position: absolute;
 }
 
 #graph-controls {
+  position: absolute;
+  top: 25px;
   bottom: 0;
   left: 0;
   width: 200px;
   height: 100%;
+}
+
+#tabulator {
   position: absolute;
+  align-items: center;
+  top: 0;
+  left: 0;
+  height: 25px;
+  display: flex;
 }
 
 #node-data-input {
@@ -48,6 +58,18 @@
 
 #graph-info {
   border: none;
+}
+
+#new-tab {
+  cursor: pointer;
+  margin-left: 5px;
+  width: 17px;
+  height: 17px;
+}
+
+#new-tab:hover {
+  width: 19px;
+  height: 19px;
 }
 
 .color-input-white {
@@ -128,4 +150,29 @@
 
 .node-input {
   width: 125px;
+}
+
+.tab {
+  cursor: pointer;
+  width: 150px;
+  height: 100%;
+  border: 1px solid;
+  border-left: none;
+  display: flex;
+  align-items: center;
+}
+
+.close-tab {
+  width: 17px;
+  height: 17px;
+}
+
+.close-tab:hover {
+  width: 19px;
+  height: 19px;
+}
+
+.tab-content {
+  margin-left: 5px;
+  width: 83%;
 }
