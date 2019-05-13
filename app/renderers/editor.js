@@ -167,7 +167,7 @@ $(document).ready(() => {
     var y = parseFloat($('#node-y').val()) || 0
 
     graph.graph.addNode({
-      id: id,
+      id: id.toString(),
       label: "New node",
       size: 30,
       x: x,
