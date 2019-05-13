@@ -162,23 +162,26 @@ $(document).ready(() => {
   })
 
   $(document).on('click', '#add-node', () => {
-    var id = 'n' + (graph.graph.nodes().length + 1)
-    var x = parseFloat($('#node-x').val()) || 0
+    var id = graph.graph.nodes().length + 1
+    var x = parseFloat($('#node-x').val()) || 0 + (id / 10)
     var y = parseFloat($('#node-y').val()) || 0
+
     graph.graph.addNode({
       id: id,
       label: "New node",
       size: 30,
       x: x,
       y: y,
-      color: '#ffb300'
+      color: '#ffb300',
+      file: '',
+      data: ''
     });
     graph.refresh()
     updateGraphInfo()
   })
 
   $(document).on('click', '#add-edge', () => {
-    var id = 'e' + (graph.graph.edges().length + 1)
+    var id = graph.graph.edges().length + 1
     var source = $('#edge-source').val()
     var target = $('#edge-target').val()
     var type = $('#is-oriented').prop('checked') ? 'arrow' : 'line'
@@ -195,6 +198,7 @@ $(document).ready(() => {
   })
 
   $(document).on('click', '#new-tab', function () {
+    saveGraphToTab()
     var newTabButton = $(this)
     newTabButton.remove()
     $('.selected-tab').removeClass('selected-tab')
@@ -204,6 +208,7 @@ $(document).ready(() => {
         '<img src="../assets/images/cross.png" class="close-tab">' +
       '</div>'
     ).append(newTabButton)
+    updateGraphFromTab()
   })
 
   $(document).on('click', '.close-tab', function () {
@@ -215,8 +220,10 @@ $(document).ready(() => {
   })
 
   $(document).on('click', '.tab-content', function () {
+    saveGraphToTab()
     $('.selected-tab').removeClass('selected-tab')
     $(this).parent().addClass('selected-tab')
+    updateGraphFromTab()
   })
 
   function getNodeById(id) {
@@ -280,6 +287,17 @@ $(document).ready(() => {
   }
 
   function getEmptyGraphData() {
-    return '{ "nodes": [], "edges": [] }'
+    return "{ &quot;nodes&quot;: [], &quot;edges&quot;: [] }"
+  }
+
+  function updateGraphFromTab() {
+    var graphData = JSON.parse($('.selected-tab > .tab-content').attr('data-graph'))
+    graph.graph.clear()
+    graph.graph.read(graphData)
+    graph.refresh()
+  }
+
+  function saveGraphToTab() {
+    $('.selected-tab > .tab-content').attr('data-graph', getGraphData())
   }
 })
