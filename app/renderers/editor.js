@@ -18,6 +18,7 @@ $(document).ready(() => {
       if (!paths) return
 
       var path = paths[0]
+      var name = getGraphName(path)
       fs.readFile(path, 'utf-8', (error, data) => {
         if (error) {
           alert("An error ocurred reading the file: " + error.message)
@@ -29,9 +30,14 @@ $(document).ready(() => {
         graph.graph.clear()
         graph.graph.read(graphData)
         graph.refresh()
+        if (!$('.selected-tab').is('div')) {
+          addAndSelectTab(name)
+        } else {
+          renameSelectedTab(name)
+        }
         updateGraphInfo()
       })
-      $('#graph-name').text(getGraphName(path))
+      $('#graph-name').text(name)
     }
     dialog.showOpenDialog(null, options, callback);
   });
@@ -45,7 +51,7 @@ $(document).ready(() => {
     }
     var callback = (path) => {
       if (!path) return
-      fs.writeFile(path, getGraphData(), (error) => {
+      fs.writeFile(path, graphData(), (error) => {
         if (error) {
           alert("An error ocurred creating the file: " + error.message)
           return
@@ -177,6 +183,7 @@ $(document).ready(() => {
       data: ''
     });
     graph.refresh()
+    if (!$('.selected-tab').is('div')) addAndSelectEmptyTab(name)
     updateGraphInfo()
   })
 
@@ -194,36 +201,29 @@ $(document).ready(() => {
       color: '#668f3c'
     });
     graph.refresh()
+    if (!$('.selected-tab').is('div')) addAndSelectEmptyTab(name)
     updateGraphInfo()
   })
 
-  $(document).on('click', '#new-tab', function () {
+  $(document).on('click', '#new-tab', () => {
     saveGraphToTab()
-    var newTabButton = $(this)
-    newTabButton.remove()
-    $('.selected-tab').removeClass('selected-tab')
-    $('#tabulator').append(
-      '<div class="tab selected-tab">' +
-        '<div class="tab-content" data-graph="' + getEmptyGraphData() + '"></div>' +
-        '<img src="../assets/images/cross.png" class="close-tab">' +
-      '</div>'
-    ).append(newTabButton)
-    updateGraphFromTab()
+    addAndSelectEmptyTab()
+    updateGraphFromSelectedTab()
   })
 
   $(document).on('click', '.close-tab', function () {
     var tab = $(this).parent()
-    if (tab.is('.selected-tab')) {
-      $(tab.parent().find('.tab')[0]).addClass('selected-tab')
-    }
     tab.remove()
+    if (tab.is('.selected-tab')) {
+      selectLastTab()
+    }
   })
 
   $(document).on('click', '.tab-content', function () {
     saveGraphToTab()
     $('.selected-tab').removeClass('selected-tab')
     $(this).parent().addClass('selected-tab')
-    updateGraphFromTab()
+    updateGraphFromSelectedTab()
   })
 
   function getNodeById(id) {
@@ -281,23 +281,64 @@ $(document).ready(() => {
     return path.split('/').pop().split('.')[0]
   }
 
-  function getGraphData() {
+  function graphData() {
     return '{ "nodes": ' + JSON.stringify(graph.graph.nodes()) + ',\n' +
              '"edges": ' + JSON.stringify(graph.graph.edges()) + ' }'
   }
 
-  function getEmptyGraphData() {
+  function emptyGraphData() {
     return "{ &quot;nodes&quot;: [], &quot;edges&quot;: [] }"
   }
 
-  function updateGraphFromTab() {
+  function updateGraphFromSelectedTab() {
     var graphData = JSON.parse($('.selected-tab > .tab-content').attr('data-graph'))
     graph.graph.clear()
     graph.graph.read(graphData)
     graph.refresh()
+    clearEdgeInfo()
+    clearNodeInfo()
+    updateGraphInfo()
   }
 
   function saveGraphToTab() {
-    $('.selected-tab > .tab-content').attr('data-graph', getGraphData())
+    $('.selected-tab > .tab-content').attr('data-graph', graphData())
+  }
+
+  function addAndSelectEmptyTab() {
+    var newTabButton = $('#new-tab')
+    newTabButton.remove()
+    $('.selected-tab').removeClass('selected-tab')
+    $('#tabulator').append(
+      '<div class="tab selected-tab">' +
+        '<div class="tab-content" data-graph="' + emptyGraphData() + '">Untitled</div>' +
+        '<img src="../assets/images/cross.png" class="close-tab">' +
+      '</div>'
+    ).append(newTabButton)
+  }
+
+  function addAndSelectTab(name) {
+    var newTabButton = $('#new-tab')
+    var tabName = name || 'Untitled'
+    newTabButton.remove()
+    $('.selected-tab').removeClass('selected-tab')
+    $('#tabulator').append(
+      '<div class="tab selected-tab">' +
+        '<div class="tab-content" data-graph="' + graphData() + '">' + tabName + '</div>' +
+        '<img src="../assets/images/cross.png" class="close-tab">' +
+      '</div>'
+    ).append(newTabButton)
+  }
+
+  function selectLastTab() {
+    $($('.tab')[0]).addClass('selected-tab')
+    updateGraphFromSelectedTab()
+    if (!$('.tab').is('div')) {
+      graph.graph.clear()
+      graph.refresh()
+    }
+  }
+
+  function renameSelectedTab(name) {
+    $('.selected-tab').find('.tab-content').text(name)
   }
 })

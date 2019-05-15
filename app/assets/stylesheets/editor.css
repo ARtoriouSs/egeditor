@@ -127,6 +127,10 @@
   margin-right: 5px;
 }
 
+.button:hover {
+  background-color: lightgray;
+}
+
 .info {
   border-top: 2px solid;
   padding: 5px;
@@ -162,8 +166,16 @@
   align-items: center;
 }
 
+.tab:hover {
+  border-bottom: 2px solid;
+}
+
+.tab:not(.selected-tab):hover {
+  background-color: #eeeeee;
+}
+
 .selected-tab {
-  background-color: red;
+  background-color: lightgray;
 }
 
 .close-tab {
@@ -177,6 +189,9 @@
 }
 
 .tab-content {
+  padding-top: 5%;
+  padding-bottom: 1px;
+  text-align: center;
   margin-left: 5px;
   width: 83%;
   height: 100%;
