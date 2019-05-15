@@ -5,6 +5,8 @@
     <script>window.$ = window.jQuery = require('jquery');</script>
     <script src="../../vendor/sigma.min.js"></script>
     <script src="../../vendor/plugins/sigma.plugins.dragNodes.min.js"></script>
+    <script src="../../vendor/plugins/shape-library.js"></script>
+    <script src="../../vendor/plugins/sigma.renderers.customShapes.js"></script>
     <link rel="stylesheet" type="text/css" href="../assets/stylesheets/editor.css">
   </head>
   <body>
@@ -85,11 +87,23 @@
             Color:
             <select id="node-color-input" class="color-input-white">
               <option value="placeholder">Input color</option>
-              <option value="#ffb300" style="background-color: #ffb300;">yellow</option>
-              <option value="#c6583e" style="background-color: #c6583e; color: white;">red</option>
-              <option value="#668f3c" style="background-color: #668f3c; color: white;">green</option>
-              <option value="#617db4" style="background-color: #617db4; color: white;">blue</option>
-              <option value="#b956af" style="background-color: #b956af; color: white;">purple</option>
+              <option value="#ffb300" style="background-color: #ffb300;">Yellow</option>
+              <option value="#c6583e" style="background-color: #c6583e; color: white;">Red</option>
+              <option value="#668f3c" style="background-color: #668f3c; color: white;">Green</option>
+              <option value="#617db4" style="background-color: #617db4; color: white;">Blue</option>
+              <option value="#b956af" style="background-color: #b956af; color: white;">Purple</option>
+            </select>
+          </div>
+          <div class="field-container">
+            Shape:
+            <select id="node-shape-input" class="shape-input">
+              <option value="placeholder">Choose shape</option>
+              <option value="circle">Circle</option>
+              <option value="diamond">Diamond</option>
+              <option value="square">Square</option>
+              <option value="cross">Cross</option>
+              <option value="star">Star</option>
+              <option value="equilateral">Equilateral</option>
             </select>
           </div>
           <button id="drop-node" class="button">Drop</button>
@@ -103,12 +117,12 @@
           <div class="field-container">
             Color:
             <select id="edge-color-input" class="color-input-white">
-              <option value="placeholder">Input color</option>
-              <option value="#ffb300" style="background-color: #ffb300;">yellow</option>
-              <option value="#c6583e" style="background-color: #c6583e; color: white;">red</option>
-              <option value="#668f3c" style="background-color: #668f3c; color: white;">green</option>
-              <option value="#617db4" style="background-color: #617db4; color: white;">blue</option>
-              <option value="#b956af" style="background-color: #b956af; color: white;">purple</option>
+              <option value="placeholder">Choose color</option>
+              <option value="#ffb300" style="background-color: #ffb300;">Yellow</option>
+              <option value="#c6583e" style="background-color: #c6583e; color: white;">Red</option>
+              <option value="#668f3c" style="background-color: #668f3c; color: white;">Green</option>
+              <option value="#617db4" style="background-color: #617db4; color: white;">Blue</option>
+              <option value="#b956af" style="background-color: #b956af; color: white;">Purple</option>
             </select>
           </div>
           <button id="drop-edge" class="button">Drop</button>
@@ -116,6 +130,8 @@
       </div>
     </div>
     <script>
+      sigma.utils.pkg('sigma.canvas.nodes');
+
       sigmaInst = new sigma({
         renderer: {
           container: 'graph-container',

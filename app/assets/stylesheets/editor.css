@@ -34,7 +34,8 @@
 }
 
 #node-color-input, #edge-color-input {
-  width: 129px;
+  width: 126px;
+  margin-left: 3px;
 }
 
 #node-x, #node-y {
@@ -70,6 +71,11 @@
 #new-tab:hover {
   width: 19px;
   height: 19px;
+}
+
+.shape-input {
+  background-color: white;
+  width: 126px;
 }
 
 .color-input-white {

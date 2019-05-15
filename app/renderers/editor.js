@@ -4,9 +4,12 @@ $(document).ready(() => {
 
   const NO_FILE_TEXT = 'No file'
   const UNTITLED_TEXT = 'Untitled'
+  const PLACEHOLDER_VALUE = 'placeholder'
+  const COLORS = ['#ffb300', '#c6583e', '#668f3c', '#617db4', '#b956af']
 
   sigma.plugins.dragNodes(sigmaInst, sigmaInst.renderers[0]);
-
+  CustomShapes.init(sigmaInst);
+  sigmaInst.refresh();
   updateGraphInfo()
 
   $('#load').on('click', (event) => {
@@ -95,9 +98,10 @@ $(document).ready(() => {
         x: Math.random(),
         y: Math.random(),
         size: 30,
-        color: '#ffb300',
+        color: COLORS[Math.floor(Math.random() * COLORS.length)],
         data: '',
-        file: ''
+        file: '',
+        type: ShapeLibrary.enumerate().map(function (shape) { return shape.name })[Math.round(Math.random() * 5)]
       });
     }
 
@@ -108,7 +112,7 @@ $(document).ready(() => {
         target: (Math.random() * nodesCount | 0).toString(),
         type: 'arrow',
         size: 3,
-        color: '#668f3c'
+        color: COLORS[Math.floor(Math.random() * COLORS.length)]
       })
     }
 
@@ -136,9 +140,10 @@ $(document).ready(() => {
     $('#file-name').text(node.file.split('/').pop() || NO_FILE_TEXT)
     $('#node-id-label').text(node.id)
     $('#node-power').text(getPower(node))
-    colorInput.val(node.color)
+    $('#node-shape-input').val(node.type || PLACEHOLDER_VALUE)
+    colorInput.val(node.color || PLACEHOLDER_VALUE)
 
-    var selectedColor = colorInput.children("option:selected").text()
+    var selectedColor = colorInput.children("option:selected").text().toLowerCase()
     colorInput.removeClass().addClass('color-input-' + selectedColor)
   })
 
@@ -150,7 +155,7 @@ $(document).ready(() => {
     $('#edge-id-label').text(edge.id)
     colorInput.val(edge.color)
 
-    var selectedColor = colorInput.children("option:selected").text()
+    var selectedColor = colorInput.children("option:selected").text().toLowerCase()
     colorInput.removeClass().addClass('color-input-' + selectedColor)
   })
 
@@ -158,10 +163,10 @@ $(document).ready(() => {
     var id = $('#node-info').attr('data-id')
     var input = $(this)
     var selected = input.children("option:selected")
-    var color = selected.text()
+    var color = selected.text().toLowerCase()
     var value = selected.val()
 
-    if (value === 'placeholder') {
+    if (value === PLACEHOLDER_VALUE) {
       input.removeClass().addClass('color-input-white')
       return
     }
@@ -171,14 +176,29 @@ $(document).ready(() => {
     input.removeClass().addClass('color-input-' + color)
   })
 
+    $(document).on('change', '#node-shape-input', function () {
+    var id = $('#node-info').attr('data-id')
+    var input = $(this)
+    var selected = input.children("option:selected")
+    var shape = selected.val()
+
+    if (shape === PLACEHOLDER_VALUE) {
+      input.removeClass().addClass('shape-input')
+      return
+    }
+
+    getNodeById(id).type = shape
+    sigmaInst.refresh()
+  })
+
   $(document).on('change', '#edge-color-input', function () {
     var id = $('#edge-info').attr('data-id')
     var input = $(this)
     var selected = input.children("option:selected")
-    var color = selected.text()
+    var color = selected.text().toLowerCase()
     var value = selected.val()
 
-    if (value === 'placeholder') {
+    if (value === PLACEHOLDER_VALUE) {
       input.removeClass().addClass('color-input-white')
       return
     }
@@ -305,7 +325,7 @@ $(document).ready(() => {
 
   function clearNodeInfo() {
     var colorInput = $('#node-color-input')
-    colorInput.val('placeholder')
+    colorInput.val(PLACEHOLDER_VALUE)
     colorInput.removeClass().addClass('color-input-white')
     $('#node-info').removeAttr('data-id')
     $('#node-label-input').val('')
@@ -313,11 +333,12 @@ $(document).ready(() => {
     $('#node-data-input').val('')
     $('#file-name').text(NO_FILE_TEXT)
     $('#node-power').empty()
+    $('#node-shape-input').val(PLACEHOLDER_VALUE)
   }
 
   function clearEdgeInfo() {
     var edgeColorInput = $('#edge-color-input')
-    edgeColorInput.val('placeholder')
+    edgeColorInput.val(PLACEHOLDER_VALUE)
     edgeColorInput.removeClass().addClass('color-input-white')
     $('#edge-info').removeAttr('data-id')
     $('#edge-id-label').empty()
