@@ -2,11 +2,9 @@
 <html>
   <head>
     <title>Graph editor</title>
-
     <script>window.$ = window.jQuery = require('jquery');</script>
     <script src="../../vendor/sigma.min.js"></script>
     <script src="../../vendor/plugins/sigma.plugins.dragNodes.min.js"></script>
-
     <link rel="stylesheet" type="text/css" href="../assets/stylesheets/editor.css">
   </head>
   <body>
@@ -118,16 +116,7 @@
       </div>
     </div>
     <script>
-      N = 10;
-      E = 10;
-      var g = {
-        nodes: [],
-        edges: []
-      };
-
-
-      graph = new sigma({
-        graph: g,
+      sigmaInst = new sigma({
         renderer: {
           container: 'graph-container',
           type: 'canvas'
@@ -139,7 +128,7 @@
         }
       })
 
+      require('../renderers/editor.js')
     </script>
-    <script>require('../renderers/editor.js')</script>
   </body>
 </html>

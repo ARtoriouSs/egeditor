@@ -2,7 +2,10 @@ $(document).ready(() => {
   const { dialog } = require('electron').remote
   const fs = require('fs')
 
-  sigma.plugins.dragNodes(graph, graph.renderers[0]);
+  const NO_FILE_TEXT = 'No file'
+  const UNTITLED_TEXT = 'Untitled'
+
+  sigma.plugins.dragNodes(sigmaInst, sigmaInst.renderers[0]);
 
   updateGraphInfo()
 
@@ -27,9 +30,9 @@ $(document).ready(() => {
         var graphData = JSON.parse(data)
         graphData = { edges: graphData.edges, nodes: graphData.nodes }
 
-        graph.graph.clear()
-        graph.graph.read(graphData)
-        graph.refresh()
+        sigmaInst.graph.clear()
+        sigmaInst.graph.read(graphData)
+        sigmaInst.refresh()
         if (!$('.selected-tab').is('div')) {
           addAndSelectTab(name)
         } else {
@@ -51,13 +54,15 @@ $(document).ready(() => {
     }
     var callback = (path) => {
       if (!path) return
+      var name = getGraphName(path)
       fs.writeFile(path, graphData(), (error) => {
         if (error) {
           alert("An error ocurred creating the file: " + error.message)
           return
         }
       });
-      $('#graph-name').text(getGraphName(path))
+      $('#graph-name').text(name)
+      renameSelectedTab(name)
     }
     dialog.showSaveDialog(null, options, callback)
   })
@@ -73,15 +78,17 @@ $(document).ready(() => {
       var path = paths[0]
       $('#file-name').text(path.split('/').pop())
       getNodeById(id).file = path
-      graph.refresh()
+      sigmaInst.refresh()
     }
     dialog.showOpenDialog(null, options, callback);
   });
 
   $(document).on('click', '#randomize', () => {
     var randomGraph = { nodes: [], edges: [] };
+    var nodesCount = 10
+    var edgesCount = 10
 
-    for (var i = 0; i < N; i++) {
+    for (var i = 0; i < nodesCount; i++) {
       randomGraph.nodes.push({
         id: i.toString(),
         label: 'Node ' + i,
@@ -94,43 +101,39 @@ $(document).ready(() => {
       });
     }
 
-    for (var i = 0; i < E; i++) {
+    for (var i = 0; i < edgesCount; i++) {
       randomGraph.edges.push({
         id: i.toString(),
-        source: Math.random() * N | 0,
-        target: Math.random() * N | 0,
+        source: (Math.random() * nodesCount | 0).toString(),
+        target: (Math.random() * nodesCount | 0).toString(),
         type: 'arrow',
         size: 3,
         color: '#668f3c'
       })
     }
 
-    graph.graph.clear()
-    graph.graph.read(randomGraph)
-    graph.refresh()
+    sigmaInst.graph.clear()
+    sigmaInst.graph.read(randomGraph)
+    sigmaInst.refresh()
     clearNodeInfo()
     clearEdgeInfo()
-    if (!$('.selected-tab').is('div')) {
-      addAndSelectTab()
-    } else {
-      renameSelectedTab()
-    }
+    if (!$('.selected-tab').is('div')) addAndSelectTab()
     updateGraphInfo()
   });
 
-  graph.bind('clickStage', () => {
+  sigmaInst.bind('clickStage', () => {
     clearNodeInfo()
     clearEdgeInfo()
   })
 
-  graph.bind('clickNode', (event) => {
+  sigmaInst.bind('clickNode', (event) => {
     var node = event.data.node
     var colorInput = $('#node-color-input')
 
     $('#node-info').attr('data-id', node.id)
     $('#node-label-input').val(node.label)
     $('#node-data-input').val(node.data)
-    $('#file-name').text(node.file.split('/').pop() || 'No file')
+    $('#file-name').text(node.file.split('/').pop() || NO_FILE_TEXT)
     $('#node-id-label').text(node.id)
     $('#node-power').text(getPower(node))
     colorInput.val(node.color)
@@ -139,7 +142,7 @@ $(document).ready(() => {
     colorInput.removeClass().addClass('color-input-' + selectedColor)
   })
 
-  graph.bind('clickEdge', (event) => {
+  sigmaInst.bind('clickEdge', (event) => {
     var edge = event.data.edge
     var colorInput = $('#edge-color-input')
 
@@ -164,7 +167,7 @@ $(document).ready(() => {
     }
 
     getNodeById(id).color = value
-    graph.refresh()
+    sigmaInst.refresh()
     input.removeClass().addClass('color-input-' + color)
   })
 
@@ -181,38 +184,38 @@ $(document).ready(() => {
     }
 
     getEdgeById(id).color = value
-    graph.refresh()
+    sigmaInst.refresh()
     input.removeClass().addClass('color-input-' + color)
   })
 
   $(document).on('input', '#node-label-input', function () {
     var id = $('#node-info').attr('data-id')
     getNodeById(id).label = $(this).val()
-    graph.refresh()
+    sigmaInst.refresh()
   })
 
   $(document).on('click', '#drop-node', () => {
     var id = $('#node-info').attr('data-id')
-    graph.graph.dropNode(id)
-    graph.refresh()
+    sigmaInst.graph.dropNode(id)
+    sigmaInst.refresh()
     updateGraphInfo()
     clearNodeInfo()
   })
 
   $(document).on('click', '#drop-edge', () => {
     var id = $('#edge-info').attr('data-id')
-    graph.graph.dropEdge(id)
-    graph.refresh()
+    sigmaInst.graph.dropEdge(id)
+    sigmaInst.refresh()
     updateGraphInfo()
     clearEdgeInfo()
   })
 
   $(document).on('click', '#add-node', () => {
-    var id = graph.graph.nodes().length + 1
+    var id = sigmaInst.graph.nodes().length + 1
     var x = parseFloat($('#node-x').val()) || 0 + (id / 10)
     var y = parseFloat($('#node-y').val()) || 0
 
-    graph.graph.addNode({
+    sigmaInst.graph.addNode({
       id: id.toString(),
       label: "New node",
       size: 30,
@@ -222,17 +225,17 @@ $(document).ready(() => {
       file: '',
       data: ''
     });
-    graph.refresh()
+    sigmaInst.refresh()
     if (!$('.selected-tab').is('div')) addAndSelectEmptyTab(name)
     updateGraphInfo()
   })
 
   $(document).on('click', '#add-edge', () => {
-    var id = graph.graph.edges().length + 1
+    var id = sigmaInst.graph.edges().length + 1
     var source = $('#edge-source').val()
     var target = $('#edge-target').val()
     var type = $('#is-oriented').prop('checked') ? 'arrow' : 'line'
-    graph.graph.addEdge({
+    sigmaInst.graph.addEdge({
       id: id,
       source: source,
       target: target,
@@ -240,7 +243,7 @@ $(document).ready(() => {
       size: 3,
       color: '#668f3c'
     });
-    graph.refresh()
+    sigmaInst.refresh()
     if (!$('.selected-tab').is('div')) addAndSelectEmptyTab(name)
     updateGraphInfo()
   })
@@ -268,7 +271,7 @@ $(document).ready(() => {
 
   function getNodeById(id) {
     var foundNode
-    graph.graph.nodes().forEach((node) => {
+    sigmaInst.graph.nodes().forEach((node) => {
       if (node.id === id) foundNode = node
     })
     return foundNode
@@ -276,17 +279,17 @@ $(document).ready(() => {
 
   function getEdgeById(id) {
     var foundEdge
-    graph.graph.edges().forEach((edge) => {
+    sigmaInst.graph.edges().forEach((edge) => {
       if (edge.id === id) foundEdge = edge
     })
     return foundEdge
   }
 
   function updateGraphInfo() {
-    $('#nodes-number').text(graph.graph.nodes().length)
-    $('#edges-number').text(graph.graph.edges().length)
+    $('#nodes-number').text(sigmaInst.graph.nodes().length)
+    $('#edges-number').text(sigmaInst.graph.edges().length)
     $('#nodes-powers').empty()
-    graph.graph.nodes().forEach((node) => {
+    sigmaInst.graph.nodes().forEach((node) => {
       $('#nodes-powers').append('<div>' + node.id + ': ' + getPower(node) + '</div>')
     })
     $('#graph-name').text($('.selected-tab > .tab-content').text())
@@ -294,7 +297,7 @@ $(document).ready(() => {
 
   function getPower(node) {
     var power = 0
-    graph.graph.edges().forEach((edge) => {
+    sigmaInst.graph.edges().forEach((edge) => {
       if (edge.source === node.id) power++
     })
     return power
@@ -308,7 +311,7 @@ $(document).ready(() => {
     $('#node-label-input').val('')
     $('#node-id-label').empty()
     $('#node-data-input').val('')
-    $('#file-name').text('No file')
+    $('#file-name').text(NO_FILE_TEXT)
     $('#node-power').empty()
   }
 
@@ -325,8 +328,8 @@ $(document).ready(() => {
   }
 
   function graphData() {
-    return '{ "nodes": ' + JSON.stringify(graph.graph.nodes()) + ',\n' +
-             '"edges": ' + JSON.stringify(graph.graph.edges()) + ' }'
+    return '{ "nodes": ' + JSON.stringify(sigmaInst.graph.nodes()) + ',\n' +
+             '"edges": ' + JSON.stringify(sigmaInst.graph.edges()) + ' }'
   }
 
   function emptyGraphData() {
@@ -335,9 +338,9 @@ $(document).ready(() => {
 
   function updateGraphFromSelectedTab() {
     var graphData = JSON.parse($('.selected-tab > .tab-content').attr('data-graph'))
-    graph.graph.clear()
-    graph.graph.read(graphData)
-    graph.refresh()
+    sigmaInst.graph.clear()
+    sigmaInst.graph.read(graphData)
+    sigmaInst.refresh()
     clearEdgeInfo()
     clearNodeInfo()
     updateGraphInfo()
@@ -361,7 +364,7 @@ $(document).ready(() => {
 
   function addAndSelectTab(name) {
     var newTabButton = $('#new-tab')
-    var tabName = name || 'Untitled'
+    var tabName = name || UNTITLED_TEXT
     newTabButton.remove()
     $('.selected-tab').removeClass('selected-tab')
     $('#tabulator').append(
@@ -376,13 +379,13 @@ $(document).ready(() => {
     $($('.tab')[0]).addClass('selected-tab')
     updateGraphFromSelectedTab()
     if (!$('.tab').is('div')) {
-      graph.graph.clear()
-      graph.refresh()
+      sigmaInst.graph.clear()
+      sigmaInst.refresh()
     }
   }
 
   function renameSelectedTab(name) {
-    var newName = name || 'Untitled'
+    var newName = name || UNTITLED_TEXT
     $('.selected-tab').find('.tab-content').text(newName)
   }
 })
