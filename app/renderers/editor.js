@@ -17,7 +17,7 @@ $(document).ready(() => {
       properties: ['openFile', 'showHiddenFiles'],
       title: 'Open graph',
       filters: [
-        { name: 'Graphs', extensions: ['json'] },
+        { name: 'Graphs', extensions: ['ege'] },
       ]
     }
     var callback = (paths) => {
@@ -52,7 +52,7 @@ $(document).ready(() => {
     var options = {
       title: 'Save graph',
       filters: [
-        { name: 'Graphs', extensions: ['json'] },
+        { name: 'Graphs', extensions: ['ege'] },
       ]
     }
     var callback = (path) => {
