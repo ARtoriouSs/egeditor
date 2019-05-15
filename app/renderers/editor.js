@@ -78,6 +78,46 @@ $(document).ready(() => {
     dialog.showOpenDialog(null, options, callback);
   });
 
+  $(document).on('click', '#randomize', () => {
+    var randomGraph = { nodes: [], edges: [] };
+
+    for (var i = 0; i < N; i++) {
+      randomGraph.nodes.push({
+        id: i.toString(),
+        label: 'Node ' + i,
+        x: Math.random(),
+        y: Math.random(),
+        size: 30,
+        color: '#ffb300',
+        data: '',
+        file: ''
+      });
+    }
+
+    for (var i = 0; i < E; i++) {
+      randomGraph.edges.push({
+        id: i.toString(),
+        source: Math.random() * N | 0,
+        target: Math.random() * N | 0,
+        type: 'arrow',
+        size: 3,
+        color: '#668f3c'
+      })
+    }
+
+    graph.graph.clear()
+    graph.graph.read(randomGraph)
+    graph.refresh()
+    clearNodeInfo()
+    clearEdgeInfo()
+    if (!$('.selected-tab').is('div')) {
+      addAndSelectTab()
+    } else {
+      renameSelectedTab()
+    }
+    updateGraphInfo()
+  });
+
   graph.bind('clickStage', () => {
     clearNodeInfo()
     clearEdgeInfo()
@@ -249,6 +289,7 @@ $(document).ready(() => {
     graph.graph.nodes().forEach((node) => {
       $('#nodes-powers').append('<div>' + node.id + ': ' + getPower(node) + '</div>')
     })
+    $('#graph-name').text($('.selected-tab > .tab-content').text())
   }
 
   function getPower(node) {
@@ -265,8 +306,10 @@ $(document).ready(() => {
     colorInput.removeClass().addClass('color-input-white')
     $('#node-info').removeAttr('data-id')
     $('#node-label-input').val('')
-    $('#node-id-label').text('')
-    $('#node-power').text('')
+    $('#node-id-label').empty()
+    $('#node-data-input').val('')
+    $('#file-name').text('No file')
+    $('#node-power').empty()
   }
 
   function clearEdgeInfo() {
@@ -274,7 +317,7 @@ $(document).ready(() => {
     edgeColorInput.val('placeholder')
     edgeColorInput.removeClass().addClass('color-input-white')
     $('#edge-info').removeAttr('data-id')
-    $('#edge-id-label').text('')
+    $('#edge-id-label').empty()
   }
 
   function getGraphName(path) {
@@ -339,6 +382,7 @@ $(document).ready(() => {
   }
 
   function renameSelectedTab(name) {
-    $('.selected-tab').find('.tab-content').text(name)
+    var newName = name || 'Untitled'
+    $('.selected-tab').find('.tab-content').text(newName)
   }
 })

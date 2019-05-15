@@ -164,6 +164,8 @@
   border-left: none;
   display: flex;
   align-items: center;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
 }
 
 .tab:hover {
