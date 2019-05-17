@@ -240,7 +240,7 @@ $(document).ready(() => {
     var y = parseFloat($('#node-y').val()) || 0
 
     sigmaInst.graph.addNode({
-      id: id.toString(),
+      id: getNewNodeId(),
       label: "New node",
       size: 30,
       x: x,
@@ -260,7 +260,7 @@ $(document).ready(() => {
     var target = $('#edge-target').val()
     var type = $('#is-oriented').prop('checked') ? 'arrow' : 'line'
     sigmaInst.graph.addEdge({
-      id: id.toString(),
+      id: getNewEdgeId(),
       source: source,
       target: target,
       type: type,

@@ -140,7 +140,7 @@ function toComplete() {
     targetsToAdd = difference(arrayRemove(nodeIds, node.id), targets)
     targetsToAdd.forEach((id) => {
       sigmaInst.graph.addEdge({
-        id: (sigmaInst.graph.edges().length + 1123).toString(),
+        id: getNewEdgeId(),
         source: node.id,
         target: id,
         type: 'line',
@@ -172,4 +172,26 @@ function removeMultipleEdges() {
       if (firstEdge.source === secondEdge.source && firstEdge.target === secondEdge.target && firstEdge.id !== secondEdge.id) sigmaInst.graph.dropEdge(secondEdge.id)
     })
   })
+}
+
+function getNewNodeId() {
+  var nodes = sigmaInst.graph.nodes()
+  var max = nodes.length > 0 ? parseInt(nodes[0].id) : 0
+  var id
+  nodes.forEach((node) => {
+    id = parseInt(node.id)
+    if (id > max) max = id
+  })
+  return (max + 1).toString()
+}
+
+function getNewEdgeId() {
+  var edges = sigmaInst.graph.edges()
+  var max = edges.length > 0 ? parseInt(edges[0].id) : 0
+  var id
+  edges.forEach((edge) => {
+    id = parseInt(edge.id)
+    if (id > max) max = id
+  })
+  return (max + 1).toString()
 }
