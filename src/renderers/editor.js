@@ -1,13 +1,6 @@
 $(document).ready(() => {
   const { dialog } = require('electron').remote
   const fs = require('fs')
-  var _ = require('lodash')
-
-  const NO_FILE_TEXT = 'No file'
-  const UNTITLED_TEXT = 'Untitled'
-  const PLACEHOLDER_VALUE = 'placeholder'
-  const COLORS = ['#ffb300', '#c6583e', '#668f3c', '#617db4', '#bconst956af']
-  const EDGE_TYPES = ['line', 'arrow']
 
   sigma.plugins.dragNodes(sigmaInst, sigmaInst.renderers[0]);
   CustomShapes.init(sigmaInst);
@@ -279,7 +272,9 @@ $(document).ready(() => {
   $(document).on('click', '.close-tab', function () {
     var tab = $(this).parent()
     tab.remove()
-    if (tab.is('.selected-tab')) {
+    if (!$('.tab').is('div')) {
+      clearGraph()
+    } else if (tab.is('.selected-tab')) {
       selectLastTab()
     }
   })
@@ -290,187 +285,4 @@ $(document).ready(() => {
     $(this).parent().addClass('selected-tab')
     updateGraphFromSelectedTab()
   })
-
-  function getNodeById(id) {
-    var foundNode
-    sigmaInst.graph.nodes().forEach((node) => {
-      if (node.id === id) foundNode = node
-    })
-    return foundNode
-  }
-
-  function getEdgeById(id) {
-    var foundEdge
-    sigmaInst.graph.edges().forEach((edge) => {
-      if (edge.id === id) foundEdge = edge
-    })
-    return foundEdge
-  }
-
-  function updateGraphInfo() {
-    $('#nodes-number').text(sigmaInst.graph.nodes().length)
-    $('#edges-number').text(sigmaInst.graph.edges().length)
-    $('#nodes-powers').empty()
-
-    sigmaInst.graph.nodes().forEach((node) => {
-      $('#nodes-powers').append('<div>' + node.id + ': ' + getPower(node) + '</div>')
-    })
-
-    if (checkCompleteness()) {
-      $('#completeness').text('Graph is complete')
-    } else {
-      $('#completeness').text('Graph is incomplete')
-    }
-
-    $('#graph-name').text($('.selected-tab > .tab-content').text())
-  }
-
-  function getPower(node) {
-    var power = 0
-    sigmaInst.graph.edges().forEach((edge) => {
-      if (edge.source === node.id) power++
-    })
-    return power
-  }
-
-  function clearNodeInfo() {
-    var colorInput = $('#node-color-input')
-    colorInput.val(PLACEHOLDER_VALUE)
-    colorInput.removeClass().addClass('color-input-white')
-    $('#node-info').removeAttr('data-id')
-    $('#node-label-input').val('')
-    $('#node-id-label').empty()
-    $('#node-data-input').val('')
-    $('#file-name').text(NO_FILE_TEXT)
-    $('#node-power').empty()
-    $('#node-shape-input').val(PLACEHOLDER_VALUE)
-  }
-
-  function clearEdgeInfo() {
-    var edgeColorInput = $('#edge-color-input')
-    edgeColorInput.val(PLACEHOLDER_VALUE)
-    edgeColorInput.removeClass().addClass('color-input-white')
-    $('#edge-info').removeAttr('data-id')
-    $('#edge-id-label').empty()
-  }
-
-  function getGraphName(path) {
-    return path.split('/').pop().split('.')[0]
-  }
-
-  function graphData() {
-    return '{ "nodes": ' + JSON.stringify(sigmaInst.graph.nodes()) + ',\n' +
-             '"edges": ' + JSON.stringify(sigmaInst.graph.edges()) + ' }'
-  }
-
-  function emptyGraphData() {
-    return "{ &quot;nodes&quot;: [], &quot;edges&quot;: [] }"
-  }
-
-  function updateGraphFromSelectedTab() {
-    var graphData = JSON.parse($('.selected-tab > .tab-content').attr('data-graph'))
-    sigmaInst.graph.clear()
-    sigmaInst.graph.read(graphData)
-    sigmaInst.refresh()
-    clearEdgeInfo()
-    clearNodeInfo()
-    updateGraphInfo()
-  }
-
-  function saveGraphToTab() {
-    $('.selected-tab > .tab-content').attr('data-graph', graphData())
-  }
-
-  function addAndSelectEmptyTab() {
-    var newTabButton = $('#new-tab')
-    newTabButton.remove()
-    $('.selected-tab').removeClass('selected-tab')
-    $('#tabulator').append(
-      '<div class="tab selected-tab">' +
-        '<div class="tab-content" data-graph="' + emptyGraphData() + '">Untitled</div>' +
-        '<img src="../assets/images/cross.png" class="close-tab">' +
-      '</div>'
-    ).append(newTabButton)
-  }
-
-  function addAndSelectTab(name) {
-    var newTabButton = $('#new-tab')
-    var tabName = name || UNTITLED_TEXT
-    newTabButton.remove()
-    $('.selected-tab').removeClass('selected-tab')
-    $('#tabulator').append(
-      '<div class="tab selected-tab">' +
-        '<div class="tab-content" data-graph="' + graphData() + '">' + tabName + '</div>' +
-        '<img src="../assets/images/cross.png" class="close-tab">' +
-      '</div>'
-    ).append(newTabButton)
-  }
-
-  function selectLastTab() {
-    $($('.tab')[0]).addClass('selected-tab')
-    updateGraphFromSelectedTab()
-    if (!$('.tab').is('div')) {
-      sigmaInst.graph.clear()
-      sigmaInst.refresh()
-    }
-  }
-
-  function renameSelectedTab(name) {
-    var newName = name || UNTITLED_TEXT
-    $('.selected-tab').find('.tab-content').text(newName)
-  }
-
-
-
-// =============
-
-  function checkCompleteness() {
-    var isComplete = true
-    var nodes = sigmaInst.graph.nodes()
-    var edges = sigmaInst.graph.edges()
-    var nodeIds = []
-    var targets
-
-    nodes.forEach((node) => {
-      nodeIds.push(node.id)
-    })
-
-    nodes.forEach((node) => {
-      targets = []
-      adjacentNodeIds(node).forEach((nodeId) => {
-        targets.push(nodeId)
-      })
-      isComplete = isComplete && isSetsEqual(targets, arrayRemove(nodeIds, node.id))
-    })
-
-    edges.forEach((edge) => {
-      if (edge.type === 'arrow') isComplete = false
-    })
-
-    return isComplete
-  }
-
-  function arrayRemove(array, value) {
-    return array.filter((element) => {
-      return element != value;
-    })
-  }
-
-  function isSetsEqual(first, second) {
-    var unionSize = new Set([...first, ...second]).size
-    return unionSize === first.length && unionSize === second.length
-  }
-
-  function adjacentNodeIds(node) {
-    var edges = []
-    sigmaInst.graph.edges().forEach((edge) => {
-      if (edge.source === node.id) {
-        edges.push(edge.target)
-      } else if (edge.target === node.id && edge.type === 'line') edges.push(edge.source)
-    })
-    return edges
-  }
-
-
-// =============
 })

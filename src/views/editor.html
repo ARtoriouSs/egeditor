@@ -2,11 +2,16 @@
 <html>
   <head>
     <title>Graph editor</title>
+
     <script>window.$ = window.jQuery = require('jquery');</script>
     <script src="../../vendor/sigma.min.js"></script>
     <script src="../../vendor/plugins/sigma.plugins.dragNodes.min.js"></script>
     <script src="../../vendor/plugins/shape-library.js"></script>
     <script src="../../vendor/plugins/sigma.renderers.customShapes.js"></script>
+    <script src="../utils/operations.js"></script>
+    <script src="../utils/tabulation.js"></script>
+    <script src="../utils/graph.js"></script>
+
     <link rel="stylesheet" type="text/css" href="../assets/stylesheets/editor.css">
   </head>
   <body>
@@ -134,6 +139,7 @@
         </div>
       </div>
     </div>
+
     <script>
       sigma.utils.pkg('sigma.canvas.nodes');
 

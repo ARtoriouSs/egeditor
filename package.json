@@ -2,7 +2,7 @@
   "name": "graph-editor",
   "version": "1.0.0",
   "description": "Graph editor desctop application, a lab work in BSUIR.",
-  "main": "app/main.js",
+  "main": "src/main/index.js",
   "scripts": {
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
