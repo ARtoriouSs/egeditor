@@ -69,6 +69,11 @@ $(document).ready(() => {
     clearGraph()
   })
 
+
+  $('#make-complete').on('click', () => {
+    toComplete()
+  })
+
   $('#node-file-input').on('click', (event) => {
     var options = {
       properties: ['openFile', 'showHiddenFiles'],
@@ -255,7 +260,7 @@ $(document).ready(() => {
     var target = $('#edge-target').val()
     var type = $('#is-oriented').prop('checked') ? 'arrow' : 'line'
     sigmaInst.graph.addEdge({
-      id: id,
+      id: id.toString(),
       source: source,
       target: target,
       type: type,
