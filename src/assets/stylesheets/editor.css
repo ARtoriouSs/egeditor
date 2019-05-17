@@ -73,6 +73,10 @@
   height: 19px;
 }
 
+#clear {
+  width: 70px;
+}
+
 .shape-input {
   background-color: white;
   width: 126px;
@@ -203,4 +207,12 @@
   margin-left: 5px;
   width: 83%;
   height: 100%;
+}
+
+.red-hover:hover {
+  background-color: #fe8484;
+}
+
+.green-hover:hover {
+  background-color: #c8fdd3;
 }

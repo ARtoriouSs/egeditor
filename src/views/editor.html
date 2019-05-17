@@ -29,7 +29,11 @@
           <div class="block">
             <button id='save' class="button">Save</button>
             <button id='load' class="button">Load</button>
-            <button id='randomize' class="button">Randomize</button>
+            <button id='randomize' class="button red-hover">Randomize</button>
+          </div>
+          <div class="block">
+            <button id='clear' class="button red-hover">Clear</button>
+            <button id='make-complete' class="button">Make complete</button>
           </div>
           <div class="top-margined">
             <label class="sublabel">Information:</label>
@@ -56,7 +60,7 @@
               x: <input type="text" id="node-x" class="small-input"></input>
               y: <input type="text" id="node-y" class="small-input"></input>
             </div>
-            <button id="add-node" class="button">Create</button>
+            <button id="add-node" class="button green-hover">Create</button>
           </div>
 
           <div class="top-margined">
@@ -72,7 +76,7 @@
                 <input type="checkbox" id="is-oriented">Oriented</input>
               </div>
             </div>
-            <button id="add-edge" class="button">Create</button>
+            <button id="add-edge" class="button green-hover">Create</button>
           </div>
         </div>
 
@@ -116,7 +120,7 @@
               <option value="equilateral">Equilateral</option>
             </select>
           </div>
-          <button id="drop-node" class="button">Drop</button>
+          <button id="drop-node" class="button red-hover">Drop</button>
         </div>
 
         <div id="edge-info" class="info">
@@ -135,7 +139,7 @@
               <option value="#b956af" style="background-color: #b956af; color: white;">Purple</option>
             </select>
           </div>
-          <button id="drop-edge" class="button">Drop</button>
+          <button id="drop-edge" class="button red-hover">Drop</button>
         </div>
       </div>
     </div>

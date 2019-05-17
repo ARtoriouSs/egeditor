@@ -7,7 +7,7 @@ $(document).ready(() => {
   sigmaInst.refresh()
   updateGraphInfo()
 
-  $('#load').on('click', (event) => {
+  $('#load').on('click', () => {
     var options = {
       properties: ['openFile', 'showHiddenFiles'],
       title: 'Open graph',
@@ -43,7 +43,7 @@ $(document).ready(() => {
     dialog.showOpenDialog(null, options, callback)
   })
 
-  $('#save').on('click', (event) => {
+  $('#save').on('click', () => {
     var options = {
       title: 'Save graph',
       filters: [
@@ -65,6 +65,10 @@ $(document).ready(() => {
     dialog.showSaveDialog(null, options, callback)
   })
 
+  $('#clear').on('click', () => {
+    clearGraph()
+  })
+
   $('#node-file-input').on('click', (event) => {
     var options = {
       properties: ['openFile', 'showHiddenFiles'],
@@ -81,7 +85,7 @@ $(document).ready(() => {
     dialog.showOpenDialog(null, options, callback)
   })
 
-  $(document).on('click', '#randomize', () => {
+  $('#randomize').on('click', () => {
     var randomGraph = { nodes: [], edges: [] }
     var nodesCount = 10
     var edgesCount = 10
@@ -154,7 +158,7 @@ $(document).ready(() => {
     colorInput.removeClass().addClass('color-input-' + selectedColor)
   })
 
-  $(document).on('change', '#node-color-input', function () {
+  $('#node-color-input').on('change', function () {
     var id = $('#node-info').attr('data-id')
     var input = $(this)
     var selected = input.children("option:selected")
@@ -171,7 +175,7 @@ $(document).ready(() => {
     input.removeClass().addClass('color-input-' + color)
   })
 
-    $(document).on('change', '#node-shape-input', function () {
+    $('#node-shape-input').on('change', function () {
     var id = $('#node-info').attr('data-id')
     var input = $(this)
     var selected = input.children("option:selected")
@@ -186,7 +190,7 @@ $(document).ready(() => {
     sigmaInst.refresh()
   })
 
-  $(document).on('change', '#edge-color-input', function () {
+  $('#edge-color-input').on('change', function () {
     var id = $('#edge-info').attr('data-id')
     var input = $(this)
     var selected = input.children("option:selected")
@@ -203,13 +207,13 @@ $(document).ready(() => {
     input.removeClass().addClass('color-input-' + color)
   })
 
-  $(document).on('input', '#node-label-input', function () {
+  $('#node-label-input').on('input', function () {
     var id = $('#node-info').attr('data-id')
     getNodeById(id).label = $(this).val()
     sigmaInst.refresh()
   })
 
-  $(document).on('click', '#drop-node', () => {
+  $('#drop-node').on('click', () => {
     var id = $('#node-info').attr('data-id')
     sigmaInst.graph.dropNode(id)
     sigmaInst.refresh()
@@ -217,7 +221,7 @@ $(document).ready(() => {
     clearNodeInfo()
   })
 
-  $(document).on('click', '#drop-edge', () => {
+  $('#drop-edge').on('click', () => {
     var id = $('#edge-info').attr('data-id')
     sigmaInst.graph.dropEdge(id)
     sigmaInst.refresh()
@@ -225,7 +229,7 @@ $(document).ready(() => {
     clearEdgeInfo()
   })
 
-  $(document).on('click', '#add-node', () => {
+  $('#add-node').on('click', () => {
     var id = sigmaInst.graph.nodes().length + 1
     var x = parseFloat($('#node-x').val()) || 0 + (id / 10)
     var y = parseFloat($('#node-y').val()) || 0
@@ -245,7 +249,7 @@ $(document).ready(() => {
     updateGraphInfo()
   })
 
-  $(document).on('click', '#add-edge', () => {
+  $('#add-edge').on('click', () => {
     var id = sigmaInst.graph.edges().length + 1
     var source = $('#edge-source').val()
     var target = $('#edge-target').val()
