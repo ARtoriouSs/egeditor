@@ -2,9 +2,9 @@ $(document).ready(() => {
   const { dialog } = require('electron').remote
   const fs = require('fs')
 
-  sigma.plugins.dragNodes(sigmaInst, sigmaInst.renderers[0]);
-  CustomShapes.init(sigmaInst);
-  sigmaInst.refresh();
+  sigma.plugins.dragNodes(sigmaInst, sigmaInst.renderers[0])
+  CustomShapes.init(sigmaInst)
+  sigmaInst.refresh()
   updateGraphInfo()
 
   $('#load').on('click', (event) => {
@@ -40,8 +40,8 @@ $(document).ready(() => {
       })
       $('#graph-name').text(name)
     }
-    dialog.showOpenDialog(null, options, callback);
-  });
+    dialog.showOpenDialog(null, options, callback)
+  })
 
   $('#save').on('click', (event) => {
     var options = {
@@ -58,7 +58,7 @@ $(document).ready(() => {
           alert("An error ocurred creating the file: " + error.message)
           return
         }
-      });
+      })
       $('#graph-name').text(name)
       renameSelectedTab(name)
     }
@@ -78,11 +78,11 @@ $(document).ready(() => {
       getNodeById(id).file = path
       sigmaInst.refresh()
     }
-    dialog.showOpenDialog(null, options, callback);
-  });
+    dialog.showOpenDialog(null, options, callback)
+  })
 
   $(document).on('click', '#randomize', () => {
-    var randomGraph = { nodes: [], edges: [] };
+    var randomGraph = { nodes: [], edges: [] }
     var nodesCount = 10
     var edgesCount = 10
 
@@ -97,7 +97,7 @@ $(document).ready(() => {
         data: '',
         file: '',
         type: ShapeLibrary.enumerate().map(function (shape) { return shape.name })[Math.round(Math.random() * 5)]
-      });
+      })
     }
 
     for (var i = 0; i < edgesCount; i++) {
@@ -118,7 +118,7 @@ $(document).ready(() => {
     clearEdgeInfo()
     if (!$('.selected-tab').is('div')) addAndSelectTab()
     updateGraphInfo()
-  });
+  })
 
   sigmaInst.bind('clickStage', () => {
     clearNodeInfo()
@@ -239,7 +239,7 @@ $(document).ready(() => {
       color: '#ffb300',
       file: '',
       data: ''
-    });
+    })
     sigmaInst.refresh()
     if (!$('.selected-tab').is('div')) addAndSelectEmptyTab(name)
     updateGraphInfo()
@@ -257,7 +257,7 @@ $(document).ready(() => {
       type: type,
       size: 3,
       color: '#668f3c'
-    });
+    })
     sigmaInst.refresh()
     if (!$('.selected-tab').is('div')) addAndSelectEmptyTab(name)
     updateGraphInfo()

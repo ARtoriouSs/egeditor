@@ -28,7 +28,7 @@ function checkCompleteness() {
 
 function arrayRemove(array, value) {
   return array.filter((element) => {
-    return element != value;
+    return element != value
   })
 }
 
