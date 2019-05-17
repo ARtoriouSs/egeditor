@@ -1,11 +1,13 @@
 $(document).ready(() => {
   const { dialog } = require('electron').remote
   const fs = require('fs')
+  var _ = require('lodash')
 
   const NO_FILE_TEXT = 'No file'
   const UNTITLED_TEXT = 'Untitled'
   const PLACEHOLDER_VALUE = 'placeholder'
-  const COLORS = ['#ffb300', '#c6583e', '#668f3c', '#617db4', '#b956af']
+  const COLORS = ['#ffb300', '#c6583e', '#668f3c', '#617db4', '#bconst956af']
+  const EDGE_TYPES = ['line', 'arrow']
 
   sigma.plugins.dragNodes(sigmaInst, sigmaInst.renderers[0]);
   CustomShapes.init(sigmaInst);
@@ -110,7 +112,7 @@ $(document).ready(() => {
         id: i.toString(),
         source: (Math.random() * nodesCount | 0).toString(),
         target: (Math.random() * nodesCount | 0).toString(),
-        type: 'arrow',
+        type: EDGE_TYPES[Math.floor(Math.random() * EDGE_TYPES.length)],
         size: 3,
         color: COLORS[Math.floor(Math.random() * COLORS.length)]
       })
@@ -309,9 +311,17 @@ $(document).ready(() => {
     $('#nodes-number').text(sigmaInst.graph.nodes().length)
     $('#edges-number').text(sigmaInst.graph.edges().length)
     $('#nodes-powers').empty()
+
     sigmaInst.graph.nodes().forEach((node) => {
       $('#nodes-powers').append('<div>' + node.id + ': ' + getPower(node) + '</div>')
     })
+
+    if (checkCompleteness()) {
+      $('#completeness').text('Graph is complete')
+    } else {
+      $('#completeness').text('Graph is incomplete')
+    }
+
     $('#graph-name').text($('.selected-tab > .tab-content').text())
   }
 
@@ -409,4 +419,58 @@ $(document).ready(() => {
     var newName = name || UNTITLED_TEXT
     $('.selected-tab').find('.tab-content').text(newName)
   }
+
+
+
+// =============
+
+  function checkCompleteness() {
+    var isComplete = true
+    var nodes = sigmaInst.graph.nodes()
+    var edges = sigmaInst.graph.edges()
+    var nodeIds = []
+    var targets
+
+    nodes.forEach((node) => {
+      nodeIds.push(node.id)
+    })
+
+    nodes.forEach((node) => {
+      targets = []
+      adjacentNodeIds(node).forEach((nodeId) => {
+        targets.push(nodeId)
+      })
+      isComplete = isComplete && isSetsEqual(targets, arrayRemove(nodeIds, node.id))
+    })
+
+    edges.forEach((edge) => {
+      if (edge.type === 'arrow') isComplete = false
+    })
+
+    return isComplete
+  }
+
+  function arrayRemove(array, value) {
+    return array.filter((element) => {
+      return element != value;
+    })
+  }
+
+  function isSetsEqual(first, second) {
+    var unionSize = new Set([...first, ...second]).size
+    return unionSize === first.length && unionSize === second.length
+  }
+
+  function adjacentNodeIds(node) {
+    var edges = []
+    sigmaInst.graph.edges().forEach((edge) => {
+      if (edge.source === node.id) {
+        edges.push(edge.target)
+      } else if (edge.target === node.id && edge.type === 'line') edges.push(edge.source)
+    })
+    return edges
+  }
+
+
+// =============
 })
