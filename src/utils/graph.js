@@ -242,7 +242,7 @@ function multipleEdgesCount(source, target) {
 function findAllPaths(from, to) {
   var paths = []
   var step = function (node, _visited) {
-    let visited = [..._visited]
+    var visited = [..._visited]
     visited.push(node)
     if (node === to) paths.push(visited)
     difference(adjacentNodes(node), visited).forEach((nextNode) => {
@@ -252,4 +252,34 @@ function findAllPaths(from, to) {
 
   step(from, [])
   return paths
+}
+
+function pathToString(path) {
+  var string = '<li>'
+  path.forEach((node) => {
+    string += node.id + ' => '
+  })
+  string = string.slice(0, -4)
+  return string + '</li><br>'
+}
+
+function shortestPath(paths) {
+  if (!paths) return
+  var minLength = 0
+  var min = paths[0]
+  paths.forEach((path) => {
+    if (path.length < minLength) {
+      minLength = path.length
+      min = path
+    }
+  })
+  return min
+}
+
+function edgesBetween(first, second) {
+  var edges = []
+  sigmaInst.graph.edges().forEach((edge) => {
+    if ((edge.source === first.id && edge.target === second.id) || (edge.target === first.id && edge.source === second.id && edge.type === 'curve')) edges.push(edge)
+  })
+  return edges
 }

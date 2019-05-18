@@ -331,10 +331,53 @@ $(document).ready(() => {
     $('#search-controls').addClass('fadeInRight')
   })
 
+  $('#path-from').on('input', () => {
+    $('#path-length').text('')
+  })
+
+  $('#path-to').on('input', () => {
+    $('#path-length').text('')
+  })
+
+  $('#all-paths-from').on('input', () => {
+    $('#paths-information').empty()
+  })
+
+  $('#all-paths-to').on('input', () => {
+    $('#paths-information').empty()
+  })
+
   $('#find-path').on('click', () => {
     var from = $('#path-from').val()
     var to = $('#path-to').val()
     var paths = findAllPaths(getNodeById(from), getNodeById(to))
-    debugger
+    var path = shortestPath(paths)
+    if (!path) {
+      $('#path-length').text('No path find')
+      return
+    }
+    $('#path-length').text('Length: ' + (path.length - 1))
+
+    path.forEach((node) => node.color = '#710215')
+    for (var i = 0; i < path.length - 1; i++) {
+      edgesBetween(path[i], path[i + 1])[0].color = '#710215'
+    }
+    sigmaInst.refresh()
+  })
+
+  $('#find-all-paths').on('click', () => {
+    var noPathsLabel = $('#no-paths')
+    var information = $('#paths-information')
+    var from = $('#all-paths-from').val()
+    var to = $('#all-paths-to').val()
+    var paths = findAllPaths(getNodeById(from), getNodeById(to))
+    information.empty()
+    if (paths.length === 0 ) {
+      information.append('No paths found')
+      return
+    }
+    paths.forEach((path) => {
+      information.append(pathToString(path))
+    })
   })
 })

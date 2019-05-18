@@ -114,6 +114,7 @@
 }
 
 #paths-information, #cycles-information {
+  padding-right: 5px;
   overflow-y: scroll;
   height: 200px;
   margin-top: 4px;

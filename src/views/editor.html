@@ -166,7 +166,10 @@
               to: <input type="text" id="path-to" class="small-input"></input>
             </div>
           </div>
-          <button id="find-path" class="button">Find path</button>
+          <div class="flex">
+            <button id="find-path" class="button">Find path</button>
+            <label id="path-length" class="second-label"></label>
+          </div>
         </div>
 
         <div class="top-margined">
@@ -186,7 +189,7 @@
             </div>
           </div>
           <button id="find-all-paths" class="button">Find all paths</button>
-          <div id="paths-information"></div>
+          <ol id="paths-information"></ol>
         </div>
       </div>
       <button id="show-search" class="button">⤺ Show me! ⤺</button>
