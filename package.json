@@ -1,7 +1,7 @@
 {
   "name": "graph-editor",
   "version": "1.0.0",
-  "description": "Graph editor desctop application, a lab work in BSUIR.",
+  "description": "Graph editor desktop application.",
   "main": "src/main/index.js",
   "scripts": {
     "start": "electron .",
@@ -13,10 +13,9 @@
   },
   "keywords": [
     "graph",
-    "editor",
+    "graph-editor",
     "electron",
-    "js",
-    "BSUIR"
+    "js"
   ],
   "author": "Alexander Teslovskiy",
   "license": "MIT",

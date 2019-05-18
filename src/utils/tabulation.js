@@ -9,6 +9,7 @@ function updateGraphFromSelectedTab() {
   sigmaInst.refresh()
   clearEdgeInfo()
   clearNodeInfo()
+  clearSearch()
   updateGraphInfo()
 }
 

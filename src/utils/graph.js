@@ -94,7 +94,14 @@ function clearGraph() {
   sigmaInst.refresh()
   clearEdgeInfo()
   clearNodeInfo()
+  clearSearch()
   updateGraphInfo()
+}
+
+function clearSearch() {
+  $('#path-length').text('')
+  $('#paths-information').empty()
+  $('#cycles-information').empty()
 }
 
 function graphData() {
