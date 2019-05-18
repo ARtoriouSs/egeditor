@@ -14,6 +14,14 @@
   width: 200px;
 }
 
+#search-controls {
+  position: absolute;
+  top: 25px;
+  bottom: 0;
+  right: 0;
+  width: 200px;
+}
+
 #tabulator {
   position: absolute;
   align-items: center;
@@ -51,11 +59,6 @@
   margin-left: 5px;
 }
 
-#nodes-powers {
-  overflow-y: scroll;
-  height: 88px;
-}
-
 #graph-info {
   border: none;
 }
@@ -83,6 +86,45 @@
   left: 1px;
   position: absolute;
   font-size: 12pt;
+}
+
+#hide-search, #show-search {
+  width: 195px;
+  height: 30px;
+  bottom: 1px;
+  right: 0;
+  position: absolute;
+  font-size: 12pt;
+}
+
+#find-cycles {
+  margin-top: 4px;
+}
+
+#path-to, #all-paths-to {
+  margin-left: 19px;
+}
+
+#information {
+  overflow: scroll;
+  height: 200px;
+}
+
+#paths-information, #cycles-information {
+  overflow-y: scroll;
+  height: 200px;
+  margin-top: 4px;
+}
+
+.incidence-table, th, td {
+  border: 1px solid;
+  border-collapse: collapse;
+  padding: 2px;
+  text-align: center;
+}
+
+.incidence-table td:hover, .incidence-table th:hover {
+  background-color: lightgray;
 }
 
 .shape-input {
@@ -224,4 +266,8 @@
 
 .green-hover:hover {
   background-color: #c8fdd3;
+}
+
+.hidden {
+  display: none;
 }

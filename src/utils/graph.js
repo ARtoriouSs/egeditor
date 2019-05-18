@@ -25,9 +25,12 @@ function updateGraphInfo() {
   $('#nodes-number').text(sigmaInst.graph.nodes().length)
   $('#edges-number').text(sigmaInst.graph.edges().length)
   $('#nodes-powers').empty()
+  $('#incidence-matrix').empty()
 
+  $('#incidence-matrix').append('<tr><th></th>' + incidenceHeader() + '</tr>')
   sigmaInst.graph.nodes().forEach((node) => {
-    $('#nodes-powers').append('<div>' + node.id + ': ' + graphPower(node) + '</div>')
+    $('#incidence-matrix').append('<tr><td>' + node.id + '</td>' + incidenceLine(node) + '</tr>')
+    $('#nodes-powers').append('<li>' + node.id + ': ' + nodePower(node) + '</li>')
   })
 
   if (isComplete()) {
@@ -37,6 +40,28 @@ function updateGraphInfo() {
   }
 
   $('#graph-name').text($('.selected-tab > .tab-content').text())
+}
+
+function incidenceLine(node) {
+  var line = ''
+  sigmaInst.graph.edges().forEach((edge) => {
+    if (edge.source === node.id || (edge.target === node.id && edge.type === 'curve')) {
+      line += '<td>1</td>'
+    } else {
+      line += '<td>0</td>'
+    }
+  })
+
+  return line
+}
+
+function incidenceHeader() {
+  var header = ''
+
+  sigmaInst.graph.edges().forEach((edge) => {
+    header += '<th>' + edge.id + '</th>'
+  })
+  return header
 }
 
 function clearNodeInfo() {
@@ -91,7 +116,7 @@ function adjacentNodeIds(node) {
   return ids
 }
 
-function graphPower(node) {
+function nodePower(node) {
   var power = 0
   sigmaInst.graph.edges().forEach((edge) => {
     if (edge.source === node.id) power++

@@ -144,7 +144,7 @@ $(document).ready(() => {
     $('#node-data-input').val(node.data)
     $('#file-name').text(node.file.split('/').pop() || NO_FILE_TEXT)
     $('#node-id-label').text(node.id)
-    $('#node-power').text(graphPower(node))
+    $('#node-power').text(nodePower(node))
     $('#node-shape-input').val(node.type || PLACEHOLDER_VALUE)
     colorInput.val(node.color || PLACEHOLDER_VALUE)
 
@@ -314,5 +314,27 @@ $(document).ready(() => {
     button.text('⤺ Hide me! ⤺')
     $('#graph-controls').removeClass('fadeOutLeft')
     $('#graph-controls').addClass('fadeInLeft')
+  })
+
+  $(document).on('click', '#hide-search', function () {
+    let button = $(this)
+    button.attr('id', 'show-search')
+    button.text('⤺ Show me! ⤺')
+    $('#search-controls').remove('fadeInRight')
+    $('#search-controls').addClass('fadeOutRight')
+  })
+
+  $(document).on('click', '#show-search', function () {
+    let button = $(this)
+    button.attr('id', 'hide-search')
+    button.text('⤻ Hide me! ⤻')
+    $('#search-controls').removeClass('fadeOutRight').removeClass('hidden')
+    $('#search-controls').addClass('fadeInRight')
+  })
+
+  $('#find-path').on('click', () => {
+    var from = $('#path-from').val()
+    var to = $('#path-to').val()
+
   })
 })

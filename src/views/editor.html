@@ -39,36 +39,26 @@
           </div>
           <div class="top-margined">
             <label class="sublabel">Information:</label>
-            <div class="flex">
-              <label>Number of nodes:</label>
-              <label id="nodes-number" class="second-label"></label>
-            </div>
-            <div class="flex">
-              <label>Number of edges:</label>
-              <label id="edges-number" class="second-label"></label>
-            </div>
-            <div>
-              <label id="completeness"></label>
-            </div>
-            <div>
-              <label>Nodes powers:</label>
-              <div id="nodes-powers"></div>
-            </div>
-          </div>
-
-          <div class="top-margined">
-            <label class="sublabel">Find</label>
-            <div>
-              <div class="field-container">
-                from: <input type="text" id="path-from" class="small-input"></input>
+            <div id="information">
+              <div class="flex">
+                <label>Number of nodes:</label>
+                <label id="nodes-number" class="second-label"></label>
               </div>
-              <div class="field-container">
-                to: <input type="text" id="path-to" class="small-input"></input>
+              <div class="flex">
+                <label>Number of edges:</label>
+                <label id="edges-number" class="second-label"></label>
               </div>
-            </div>
-            <div class="flex">
-              <button id="find-path" class="button">Shortest path</button>
-              <button id="find-cycles" class="button">Euler cycle</button>
+              <div>
+                <label id="completeness"></label>
+              </div>
+              <div>
+                <label>Nodes powers:</label>
+                <ul id="nodes-powers"></ul>
+              </div>
+              <div>
+                <label>Incidence matrix:</label>
+                <table id="incidence-matrix" class="incidence-table"></table>
+              </div>
             </div>
           </div>
 
@@ -160,7 +150,46 @@
           <button id="drop-edge" class="button red-hover">Drop</button>
         </div>
       </div>
-      <button id="hide-controls" class="button">⤺ Hide me! ⤻</button>
+      <button id="hide-controls" class="button">⤺ Hide me! ⤺</button>
+
+      <div id="search-controls" class="animated hidden">
+        <div class="flex">
+          <label class="main-label">Search</label>
+        </div>
+        <div class="top-margined">
+          <label class="sublabel">Find shortest path</label>
+          <div>
+            <div class="field-container">
+              from: <input type="text" id="path-from" class="small-input"></input>
+            </div>
+            <div class="field-container">
+              to: <input type="text" id="path-to" class="small-input"></input>
+            </div>
+          </div>
+          <button id="find-path" class="button">Find path</button>
+        </div>
+
+        <div class="top-margined">
+          <label class="sublabel">Find all Euler cycles</label>
+          <button id="find-cycles" class="button">Find cycles</button>
+          <div id="cycles-information"></div>
+        </div>
+
+        <div class="top-margined">
+          <label class="sublabel">Find all paths</label>
+          <div>
+            <div class="field-container">
+              from: <input type="text" id="all-paths-from" class="small-input"></input>
+            </div>
+            <div class="field-container">
+              to: <input type="text" id="all-paths-to" class="small-input"></input>
+            </div>
+          </div>
+          <button id="find-all-paths" class="button">Find all paths</button>
+          <div id="paths-information"></div>
+        </div>
+      </div>
+      <button id="show-search" class="button">⤺ Show me! ⤺</button>
     </div>
 
     <script>
