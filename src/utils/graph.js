@@ -3,7 +3,7 @@
 const NO_FILE_TEXT = 'No file'
 const PLACEHOLDER_VALUE = 'placeholder'
 const COLORS = ['#ffb300', '#c6583e', '#668f3c', '#617db4', '#b956af']
-const EDGE_TYPES = ['line', 'arrow']
+const EDGE_TYPES = ['curve', 'curvedArrow']
 
 function getNodeById(id) {
   var foundNode
@@ -27,7 +27,7 @@ function updateGraphInfo() {
   $('#nodes-powers').empty()
 
   sigmaInst.graph.nodes().forEach((node) => {
-    $('#nodes-powers').append('<div>' + node.id + ': ' + getPower(node) + '</div>')
+    $('#nodes-powers').append('<div>' + node.id + ': ' + graphPower(node) + '</div>')
   })
 
   if (isComplete()) {
@@ -60,7 +60,7 @@ function clearEdgeInfo() {
   $('#edge-id-label').empty()
 }
 
-function getGraphName(path) {
+function graphName(path) {
   return path.split('/').pop().split('.')[0]
 }
 
@@ -86,12 +86,12 @@ function adjacentNodeIds(node) {
   sigmaInst.graph.edges().forEach((edge) => {
     if (edge.source === node.id) {
       ids.push(edge.target)
-    } else if (edge.target === node.id && edge.type === 'line') ids.push(edge.source)
+    } else if (edge.target === node.id && edge.type === 'curve') ids.push(edge.source)
   })
   return ids
 }
 
-function getPower(node) {
+function graphPower(node) {
   var power = 0
   sigmaInst.graph.edges().forEach((edge) => {
     if (edge.source === node.id) power++
@@ -115,7 +115,7 @@ function isComplete() {
   })
 
   edges.forEach((edge) => {
-    if (edge.type === 'arrow') isComplete = false
+    if (edge.type === 'curvedArrow') isComplete = false
   })
 
   return isComplete
@@ -140,10 +140,10 @@ function toComplete() {
     targetsToAdd = difference(arrayRemove(nodeIds, node.id), targets)
     targetsToAdd.forEach((id) => {
       sigmaInst.graph.addEdge({
-        id: getNewEdgeId(),
+        id: newEdgeId(),
         source: node.id,
         target: id,
-        type: 'line',
+        type: 'curve',
         size: 3,
         color: '#668f3c'
       })
@@ -162,7 +162,7 @@ function removeLoops() {
 
 function removeDirectedEdges() {
   sigmaInst.graph.edges().forEach((edge) => {
-    if (edge.type === 'arrow') sigmaInst.graph.dropEdge(edge.id)
+    if (edge.type === 'curvedArrow') sigmaInst.graph.dropEdge(edge.id)
   })
 }
 
@@ -174,7 +174,7 @@ function removeMultipleEdges() {
   })
 }
 
-function getNewNodeId() {
+function newNodeId() {
   var nodes = sigmaInst.graph.nodes()
   var max = nodes.length > 0 ? parseInt(nodes[0].id) : 0
   var id
@@ -185,7 +185,7 @@ function getNewNodeId() {
   return (max + 1).toString()
 }
 
-function getNewEdgeId() {
+function newEdgeId() {
   var edges = sigmaInst.graph.edges()
   var max = edges.length > 0 ? parseInt(edges[0].id) : 0
   var id
@@ -194,4 +194,12 @@ function getNewEdgeId() {
     if (id > max) max = id
   })
   return (max + 1).toString()
+}
+
+function multipleEdgesCount(source, target) {
+  var counter = 0
+  sigmaInst.graph.edges().forEach((edge) => {
+    if (edge.source === source && edge.target === target) counter++
+  })
+  return counter
 }

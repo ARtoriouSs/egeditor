@@ -19,7 +19,7 @@ $(document).ready(() => {
       if (!paths) return
 
       var path = paths[0]
-      var name = getGraphName(path)
+      var name = graphName(path)
       fs.readFile(path, 'utf-8', (error, data) => {
         if (error) {
           alert("An error ocurred reading the file: " + error.message)
@@ -52,7 +52,7 @@ $(document).ready(() => {
     }
     var callback = (path) => {
       if (!path) return
-      var name = getGraphName(path)
+      var name = graphName(path)
       fs.writeFile(path, graphData(), (error) => {
         if (error) {
           alert("An error ocurred creating the file: " + error.message)
@@ -143,7 +143,7 @@ $(document).ready(() => {
     $('#node-data-input').val(node.data)
     $('#file-name').text(node.file.split('/').pop() || NO_FILE_TEXT)
     $('#node-id-label').text(node.id)
-    $('#node-power').text(getPower(node))
+    $('#node-power').text(graphPower(node))
     $('#node-shape-input').val(node.type || PLACEHOLDER_VALUE)
     colorInput.val(node.color || PLACEHOLDER_VALUE)
 
@@ -240,7 +240,7 @@ $(document).ready(() => {
     var y = parseFloat($('#node-y').val()) || 0
 
     sigmaInst.graph.addNode({
-      id: getNewNodeId(),
+      id: newNodeId(),
       label: "New node",
       size: 30,
       x: x,
@@ -258,14 +258,15 @@ $(document).ready(() => {
     var id = sigmaInst.graph.edges().length + 1
     var source = $('#edge-source').val()
     var target = $('#edge-target').val()
-    var type = $('#is-oriented').prop('checked') ? 'arrow' : 'line'
+    var type = $('#is-oriented').prop('checked') ? 'curvedArrow' : 'curve'
     sigmaInst.graph.addEdge({
-      id: getNewEdgeId(),
+      id: newEdgeId(),
       source: source,
       target: target,
       type: type,
       size: 3,
-      color: '#668f3c'
+      color: '#668f3c',
+      count: (multipleEdgesCount(source, target) + 1) * 10
     })
     sigmaInst.refresh()
     if (!$('.selected-tab').is('div')) addAndSelectEmptyTab(name)
