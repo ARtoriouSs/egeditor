@@ -116,6 +116,16 @@ function adjacentNodeIds(node) {
   return ids
 }
 
+function adjacentNodes(node) {
+  var nodes = []
+  sigmaInst.graph.edges().forEach((edge) => {
+    if (edge.source === node.id) {
+      nodes.push(getNodeById(edge.target))
+    } else if (edge.target === node.id && edge.type === 'curve') nodes.push(getNodeById(edge.source))
+  })
+  return nodes
+}
+
 function nodePower(node) {
   var power = 0
   sigmaInst.graph.edges().forEach((edge) => {
@@ -227,4 +237,19 @@ function multipleEdgesCount(source, target) {
     if (edge.source === source && edge.target === target) counter++
   })
   return counter
+}
+
+function findAllPaths(from, to) {
+  var paths = []
+  var step = function (node, _visited) {
+    let visited = [..._visited]
+    visited.push(node)
+    if (node === to) paths.push(visited)
+    difference(adjacentNodes(node), visited).forEach((nextNode) => {
+      step(nextNode, visited)
+    })
+  }
+
+  step(from, [])
+  return paths
 }

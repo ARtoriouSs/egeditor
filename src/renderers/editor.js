@@ -69,7 +69,6 @@ $(document).ready(() => {
     clearGraph()
   })
 
-
   $('#make-complete').on('click', () => {
     toComplete()
   })
@@ -335,6 +334,7 @@ $(document).ready(() => {
   $('#find-path').on('click', () => {
     var from = $('#path-from').val()
     var to = $('#path-to').val()
-
+    var paths = findAllPaths(getNodeById(from), getNodeById(to))
+    debugger
   })
 })
