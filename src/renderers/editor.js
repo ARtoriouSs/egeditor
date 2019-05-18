@@ -281,12 +281,15 @@ $(document).ready(() => {
 
   $(document).on('click', '.close-tab', function () {
     var tab = $(this).parent()
-    tab.remove()
-    if (!$('.tab').is('div')) {
-      clearGraph()
-    } else if (tab.is('.selected-tab')) {
-      selectLastTab()
-    }
+    tab.addClass('fadeOutLeft animated')
+    setTimeout(() => {
+      tab.remove()
+      if (!$('.tab').is('div')) {
+        clearGraph()
+      } else if (tab.is('.selected-tab')) {
+        selectLastTab()
+      }
+    }, 150)
   })
 
   $(document).on('click', '.tab-content', function () {
@@ -294,5 +297,21 @@ $(document).ready(() => {
     $('.selected-tab').removeClass('selected-tab')
     $(this).parent().addClass('selected-tab')
     updateGraphFromSelectedTab()
+  })
+
+  $(document).on('click', '#hide-controls', function () {
+    let button = $(this)
+    button.attr('id', 'show-controls')
+    button.text('⤻ Show me! ⤻')
+    $('#graph-controls').remove('fadeInLeft')
+    $('#graph-controls').addClass('fadeOutLeft')
+  })
+
+  $(document).on('click', '#show-controls', function () {
+    let button = $(this)
+    button.attr('id', 'hide-controls')
+    button.text('⤺ Hide me! ⤺')
+    $('#graph-controls').removeClass('fadeOutLeft')
+    $('#graph-controls').addClass('fadeInLeft')
   })
 })

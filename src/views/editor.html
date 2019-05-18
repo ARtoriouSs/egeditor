@@ -13,6 +13,8 @@
     <script src="../utils/tabulation.js"></script>
     <script src="../utils/graph.js"></script>
 
+    <link rel="stylesheet" href="../../node_modules/animate.css/animate.min.css">
+
     <link rel="stylesheet" type="text/css" href="../assets/stylesheets/editor.css">
   </head>
   <body>
@@ -21,7 +23,7 @@
       <div id="tabulator">
         <img src="../assets/images/plus.png" id="new-tab">
       </div>
-      <div id="graph-controls">
+      <div id="graph-controls" class="animated">
         <div id="graph-info" class="info">
           <div class="flex">
             <label class="main-label">Current graph:</label>
@@ -143,6 +145,7 @@
           <button id="drop-edge" class="button red-hover">Drop</button>
         </div>
       </div>
+      <button id="hide-controls" class="button">⤺ Hide me! ⤻</button>
     </div>
 
     <script>

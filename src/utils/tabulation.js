@@ -21,7 +21,7 @@ function addAndSelectEmptyTab() {
   newTabButton.remove()
   $('.selected-tab').removeClass('selected-tab')
   $('#tabulator').append(
-    '<div class="tab selected-tab">' +
+    '<div class="tab selected-tab fadeInLeft animated">' +
       '<div class="tab-content" data-graph="' + emptyGraphData() + '">Untitled</div>' +
       '<img src="../assets/images/cross.png" class="close-tab">' +
     '</div>'

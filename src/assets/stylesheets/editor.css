@@ -12,7 +12,6 @@
   bottom: 0;
   left: 0;
   width: 200px;
-  height: 100%;
 }
 
 #tabulator {
@@ -75,6 +74,15 @@
 
 #clear {
   width: 70px;
+}
+
+#hide-controls, #show-controls {
+  width: 195px;
+  height: 30px;
+  bottom: 1px;
+  left: 1px;
+  position: absolute;
+  font-size: 12pt;
 }
 
 .shape-input {
@@ -176,6 +184,7 @@
   align-items: center;
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
+  animation-duration: 250ms;
 }
 
 .tab:hover {
