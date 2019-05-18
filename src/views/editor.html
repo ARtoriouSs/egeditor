@@ -13,8 +13,7 @@
     <script src="../utils/tabulation.js"></script>
     <script src="../utils/graph.js"></script>
 
-    <link rel="stylesheet" href="../../node_modules/animate.css/animate.min.css">
-
+    <link rel="stylesheet" type="text/css" href="../../node_modules/animate.css/animate.min.css">
     <link rel="stylesheet" type="text/css" href="../assets/stylesheets/editor.css">
   </head>
   <body>
@@ -54,6 +53,22 @@
             <div>
               <label>Nodes powers:</label>
               <div id="nodes-powers"></div>
+            </div>
+          </div>
+
+          <div class="top-margined">
+            <label class="sublabel">Find</label>
+            <div>
+              <div class="field-container">
+                from: <input type="text" id="path-from" class="small-input"></input>
+              </div>
+              <div class="field-container">
+                to: <input type="text" id="path-to" class="small-input"></input>
+              </div>
+            </div>
+            <div class="flex">
+              <button id="find-path" class="button">Shortest path</button>
+              <button id="find-cycles" class="button">Euler cycle</button>
             </div>
           </div>
 

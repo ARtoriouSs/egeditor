@@ -93,9 +93,9 @@ $(document).ready(() => {
   $('#randomize').on('click', () => {
     var randomGraph = { nodes: [], edges: [] }
     var nodesCount = 10
-    var edgesCount = 10
+    var edgesCount = 15
 
-    for (var i = 0; i < nodesCount; i++) {
+    for (var i = 1; i <= nodesCount; i++) {
       randomGraph.nodes.push({
         id: i.toString(),
         label: 'Node ' + i,
@@ -109,14 +109,15 @@ $(document).ready(() => {
       })
     }
 
-    for (var i = 0; i < edgesCount; i++) {
+    for (var i = 1; i <= edgesCount; i++) {
       randomGraph.edges.push({
         id: i.toString(),
-        source: (Math.random() * nodesCount | 0).toString(),
-        target: (Math.random() * nodesCount | 0).toString(),
+        source: (Math.random() * nodesCount | 1).toString(),
+        target: (Math.random() * nodesCount | 1).toString(),
         type: EDGE_TYPES[Math.floor(Math.random() * EDGE_TYPES.length)],
         size: 3,
-        color: COLORS[Math.floor(Math.random() * COLORS.length)]
+        color: COLORS[Math.floor(Math.random() * COLORS.length)],
+        count: (multipleEdgesCount(this.source, this.target) + 1) * 10
       })
     }
 
