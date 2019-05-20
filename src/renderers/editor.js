@@ -379,21 +379,4 @@ $(document).ready(() => {
       information.append(pathToString(path))
     })
   })
-
-  $('#find-cycles').on('click', () => {
-    var information = $('#cycles-information')
-    var cycles = []
-    sigmaInst.graph.nodes().forEach((node) => {
-      cycles.push(findAllCycles(node))
-    })
-
-    information.empty()
-    if (cycles.length === 0 ) {
-      information.append('No cycles found')
-      return
-    }
-    cycles.forEach((cycle) => {
-      information.append(pathToString(cycle))
-    })
-  })
 })
