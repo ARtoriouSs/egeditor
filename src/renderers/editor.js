@@ -366,7 +366,6 @@ $(document).ready(() => {
   })
 
   $('#find-all-paths').on('click', () => {
-    var noPathsLabel = $('#no-paths')
     var information = $('#paths-information')
     var from = $('#all-paths-from').val()
     var to = $('#all-paths-to').val()
@@ -378,6 +377,23 @@ $(document).ready(() => {
     }
     paths.forEach((path) => {
       information.append(pathToString(path))
+    })
+  })
+
+  $('#find-cycles').on('click', () => {
+    var information = $('#cycles-information')
+    var cycles = []
+    sigmaInst.graph.nodes().forEach((node) => {
+      cycles.push(findAllCycles(node))
+    })
+
+    information.empty()
+    if (cycles.length === 0 ) {
+      information.append('No cycles found')
+      return
+    }
+    cycles.forEach((cycle) => {
+      information.append(pathToString(cycle))
     })
   })
 })

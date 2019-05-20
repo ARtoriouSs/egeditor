@@ -261,6 +261,21 @@ function findAllPaths(from, to) {
   return paths
 }
 
+function findAllCycles(target) {
+  var cycles = []
+  var step = function (node, _visited) {
+    var visited = [..._visited]
+    visited.push(node)
+    if (node === target) cycles.push(visited)
+    difference(adjacentNodes(node), visited).forEach((nextNode) => {
+      step(nextNode, visited)
+    })
+  }
+
+  step(target, [])
+  return cycles
+}
+
 function pathToString(path) {
   var string = '<li>'
   path.forEach((node) => {
