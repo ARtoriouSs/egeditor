@@ -9,5 +9,4 @@ app.on('ready', () => {
   })
   window.maximize()
   window.loadFile('src/views/editor.html')
-  window.webContents.toggleDevTools()
 })
