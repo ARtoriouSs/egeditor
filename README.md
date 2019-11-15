@@ -1,4 +1,4 @@
-# egEditor
+# egeditor
 
 It's a simple graph editor written on Electron framework with SigmaJS.
 
