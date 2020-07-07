@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/ARtoriouSs/egEditor#readme",
   "devDependencies": {
-    "electron": "^4.1.4"
+    "electron": "^7.2.4"
   },
   "dependencies": {
     "animate.css": "^3.7.0",
