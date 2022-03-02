@@ -6,7 +6,7 @@ It's a simple graph editor written on Electron framework with SigmaJS.
 
 ```bash
 git clone https://github.com/ARtoriouSs/egeditor.git
-cd graph-editor
+cd egeditor
 ```
 ```bash
 npm install
