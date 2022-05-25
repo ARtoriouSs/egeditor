@@ -12,3 +12,7 @@ cd egeditor
 npm install
 npm start
 ```
+
+## Demo
+
+![Demo](https://github.com/ARtoriouSs/egeditor/blob/master/demo.png "Demo")
